@@ -19,10 +19,10 @@
 
    ============================================================ */
 
-const EMAILJS_PUBLIC_KEY   = 'YOUR_PUBLIC_KEY';      // from Account → General
-const EMAILJS_SERVICE_ID   = 'YOUR_SERVICE_ID';      // e.g. 'service_abc123'
-const EMAILJS_TEMPLATE_CLINIC  = 'appt_notification';   // template for clinic
-const EMAILJS_TEMPLATE_PATIENT = 'appt_confirmation';   // template for patient
+const EMAILJS_PUBLIC_KEY       = 'GxMqnnh7uSlokHMjo';
+const EMAILJS_SERVICE_ID       = 'service_riv0k7s';
+const EMAILJS_TEMPLATE_CLINIC  = 'template_p7ezwlo';
+const EMAILJS_TEMPLATE_PATIENT = 'template_8byilez';
 
 /* ── Initialize EmailJS ── */
 if (typeof emailjs !== 'undefined') {
