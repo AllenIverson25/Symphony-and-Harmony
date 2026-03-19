@@ -9,9 +9,6 @@
 </head>
 <body>
 
-  <!-- ══════════════════════════════════════════
-       NAVBAR
-  ══════════════════════════════════════════ -->
   <nav class="navbar" role="navigation" aria-label="Main navigation">
     <div class="container">
       <a href="index.html" class="nav-logo" aria-label="Symphony & Harmony Physical Therapy Home">
@@ -26,16 +23,13 @@
         <li><a href="index.html">Home</a></li>
         <li><a href="about.html">About</a></li>
         <li><a href="services.html">Services</a></li>
-        <li><a href="health.html">Health Advice</a></li>
+        <li><a href="health.html" class="active">Health Advice</a></li>
         <li><a href="contact.html">Contact</a></li>
       </ul>
       <a href="contact.html" class="btn btn--primary nav-cta">Book a Call</a>
     </div>
   </nav>
 
-  <!-- ══════════════════════════════════════════
-       MINI HERO STRIP
-  ══════════════════════════════════════════ -->
   <section class="hero-strip" aria-label="Page header">
     <div class="container">
       <span class="section__eyebrow" style="color:var(--light-blue);">Self-Care &amp; Recovery</span>
@@ -45,7 +39,7 @@
   </section>
 
   <!-- ══════════════════════════════════════════
-       EXERCISE CARDS — 2×2 Grid
+       EXERCISE CARDS — true 2×2 grid
   ══════════════════════════════════════════ -->
   <section class="section" id="exercises" aria-labelledby="exercises-heading">
     <div class="container">
@@ -55,120 +49,72 @@
         <p>These exercises are designed to complement your visceral and neural manipulation treatments. Always consult Dr. Friedman before beginning any new exercise program.</p>
       </div>
 
-      <div class="exercise-grid">
+      <div class="exercise-grid--2col">
 
         <!-- Exercise 1 -->
-        <div class="exercise-card fade-in" aria-label="Diaphragmatic Breathing exercise">
-          <div class="exercise-card__img">
-            <img src="images/Diaphragmatic Breathing.jpg" alt="Diaphragmatic Breathing" style="width:100%; height:100%; object-fit:cover;" />
-          </div>
-          <div class="exercise-card__body">
-            <div class="exercise-card__title">Diaphragmatic Breathing</div>
+        <div class="ex-card fade-in" aria-label="Diaphragmatic Breathing exercise">
+          <div class="ex-card__img">
+            <img src="images/Diaphragmatic Breathing.jpg" alt="Diaphragmatic Breathing" />
             <span class="difficulty-pill difficulty-pill--easy">Easy</span>
-            <div class="exercise-steps">
-              <div class="exercise-step">
-                <div class="step-num" aria-hidden="true">1</div>
-                <span>Lie on your back with knees bent, one hand on your chest and one on your belly.</span>
-              </div>
-              <div class="exercise-step">
-                <div class="step-num" aria-hidden="true">2</div>
-                <span>Inhale slowly through your nose for 4 counts, allowing your belly to rise while your chest stays still.</span>
-              </div>
-              <div class="exercise-step">
-                <div class="step-num" aria-hidden="true">3</div>
-                <span>Exhale through pursed lips for 6 counts, gently contracting your abdominal muscles.</span>
-              </div>
-              <div class="exercise-step">
-                <div class="step-num" aria-hidden="true">4</div>
-                <span>Repeat 10 times, twice daily. This mobilizes the diaphragm and surrounding viscera.</span>
-              </div>
+          </div>
+          <div class="ex-card__body">
+            <h3 class="ex-card__title">Diaphragmatic Breathing</h3>
+            <div class="ex-steps">
+              <div class="ex-step"><span class="step-num" aria-hidden="true">1</span><span>Lie on your back with knees bent, one hand on your chest and one on your belly.</span></div>
+              <div class="ex-step"><span class="step-num" aria-hidden="true">2</span><span>Inhale slowly through your nose for 4 counts, letting your belly rise while your chest stays still.</span></div>
+              <div class="ex-step"><span class="step-num" aria-hidden="true">3</span><span>Exhale through pursed lips for 6 counts, gently contracting your abdominal muscles.</span></div>
+              <div class="ex-step"><span class="step-num" aria-hidden="true">4</span><span>Repeat 10 times, twice daily. This mobilizes the diaphragm and surrounding viscera.</span></div>
             </div>
           </div>
         </div>
 
         <!-- Exercise 2 -->
-        <div class="exercise-card fade-in fade-in--delay-1" aria-label="Thoracic Mobility Rotation exercise">
-          <div class="exercise-card__img">
-            <img src="images/Thoracic Mobility Rotation.jpg" alt="Thoracic Mobility Rotation" style="width:100%; height:100%; object-fit:cover;" />
-          </div>
-          <div class="exercise-card__body">
-            <div class="exercise-card__title">Thoracic Mobility Rotation</div>
+        <div class="ex-card fade-in fade-in--delay-1" aria-label="Thoracic Mobility Rotation exercise">
+          <div class="ex-card__img">
+            <img src="images/Thoracic Mobility Rotation.jpg" alt="Thoracic Mobility Rotation" />
             <span class="difficulty-pill difficulty-pill--easy">Easy</span>
-            <div class="exercise-steps">
-              <div class="exercise-step">
-                <div class="step-num" aria-hidden="true">1</div>
-                <span>Sit upright in a chair with feet flat on the floor, arms crossed over your chest.</span>
-              </div>
-              <div class="exercise-step">
-                <div class="step-num" aria-hidden="true">2</div>
-                <span>Keeping your hips still, slowly rotate your upper body to the right as far as comfortable.</span>
-              </div>
-              <div class="exercise-step">
-                <div class="step-num" aria-hidden="true">3</div>
-                <span>Hold for 3 seconds, then return to center and rotate to the left.</span>
-              </div>
-              <div class="exercise-step">
-                <div class="step-num" aria-hidden="true">4</div>
-                <span>Perform 10 repetitions each side, once daily. Improves thoracic organ mobility.</span>
-              </div>
+          </div>
+          <div class="ex-card__body">
+            <h3 class="ex-card__title">Thoracic Mobility Rotation</h3>
+            <div class="ex-steps">
+              <div class="ex-step"><span class="step-num" aria-hidden="true">1</span><span>Sit upright in a chair with feet flat on the floor, arms crossed over your chest.</span></div>
+              <div class="ex-step"><span class="step-num" aria-hidden="true">2</span><span>Keeping your hips still, slowly rotate your upper body to the right as far as comfortable.</span></div>
+              <div class="ex-step"><span class="step-num" aria-hidden="true">3</span><span>Hold for 3 seconds, return to center, then rotate left.</span></div>
+              <div class="ex-step"><span class="step-num" aria-hidden="true">4</span><span>Perform 10 reps each side, once daily. Improves thoracic organ mobility.</span></div>
             </div>
           </div>
         </div>
 
         <!-- Exercise 3 -->
-        <div class="exercise-card fade-in fade-in--delay-2" aria-label="Pelvic Floor Release exercise">
-          <div class="exercise-card__img">
-            <img src="images/Pelvic Floor Release.jpg" alt="Pelvic Floor Release" style="width:100%; height:100%; object-fit:cover;" />
-          </div>
-          <div class="exercise-card__body">
-            <div class="exercise-card__title">Pelvic Floor Release</div>
+        <div class="ex-card fade-in fade-in--delay-2" aria-label="Pelvic Floor Release exercise">
+          <div class="ex-card__img">
+            <img src="images/Pelvic Floor Release.jpg" alt="Pelvic Floor Release" />
             <span class="difficulty-pill difficulty-pill--medium">Medium</span>
-            <div class="exercise-steps">
-              <div class="exercise-step">
-                <div class="step-num" aria-hidden="true">1</div>
-                <span>Lie on your back with knees bent and feet flat. Place a small pillow under your sacrum if needed.</span>
-              </div>
-              <div class="exercise-step">
-                <div class="step-num" aria-hidden="true">2</div>
-                <span>Take a deep diaphragmatic breath. On the exhale, consciously release and relax your pelvic floor muscles.</span>
-              </div>
-              <div class="exercise-step">
-                <div class="step-num" aria-hidden="true">3</div>
-                <span>Visualize the pelvic floor dropping like an elevator descending one floor.</span>
-              </div>
-              <div class="exercise-step">
-                <div class="step-num" aria-hidden="true">4</div>
-                <span>Hold the release for 5 seconds, then breathe normally. Repeat 8 times, twice daily.</span>
-              </div>
+          </div>
+          <div class="ex-card__body">
+            <h3 class="ex-card__title">Pelvic Floor Release</h3>
+            <div class="ex-steps">
+              <div class="ex-step"><span class="step-num" aria-hidden="true">1</span><span>Lie on your back with knees bent and feet flat. Place a small pillow under your sacrum if needed.</span></div>
+              <div class="ex-step"><span class="step-num" aria-hidden="true">2</span><span>Take a deep diaphragmatic breath. On the exhale, consciously release and relax your pelvic floor.</span></div>
+              <div class="ex-step"><span class="step-num" aria-hidden="true">3</span><span>Visualize the pelvic floor dropping like an elevator descending one floor.</span></div>
+              <div class="ex-step"><span class="step-num" aria-hidden="true">4</span><span>Hold the release for 5 seconds. Repeat 8 times, twice daily.</span></div>
             </div>
           </div>
         </div>
 
         <!-- Exercise 4 -->
-        <div class="exercise-card fade-in fade-in--delay-3" aria-label="Sciatic Nerve Glide exercise">
-          <div class="exercise-card__img">
-            <img src="images/Sciatic Nerve Glide.jpg" alt="Sciatic Nerve Glide" style="width:100%; height:100%; object-fit:cover;" />
-          </div>
-          <div class="exercise-card__body">
-            <div class="exercise-card__title">Sciatic Nerve Glide</div>
+        <div class="ex-card fade-in fade-in--delay-3" aria-label="Sciatic Nerve Glide exercise">
+          <div class="ex-card__img">
+            <img src="images/Sciatic Nerve Glide.jpg" alt="Sciatic Nerve Glide" />
             <span class="difficulty-pill difficulty-pill--medium">Medium</span>
-            <div class="exercise-steps">
-              <div class="exercise-step">
-                <div class="step-num" aria-hidden="true">1</div>
-                <span>Sit at the edge of a chair with good posture. Extend one leg straight in front of you.</span>
-              </div>
-              <div class="exercise-step">
-                <div class="step-num" aria-hidden="true">2</div>
-                <span>Simultaneously flex your foot (toes toward you) and gently tilt your chin to your chest.</span>
-              </div>
-              <div class="exercise-step">
-                <div class="step-num" aria-hidden="true">3</div>
-                <span>Then point your toes away and gently look up toward the ceiling — creating a neural "floss."</span>
-              </div>
-              <div class="exercise-step">
-                <div class="step-num" aria-hidden="true">4</div>
-                <span>Repeat 10 slow repetitions per leg. Stop if you feel sharp pain. Perform once daily.</span>
-              </div>
+          </div>
+          <div class="ex-card__body">
+            <h3 class="ex-card__title">Sciatic Nerve Glide</h3>
+            <div class="ex-steps">
+              <div class="ex-step"><span class="step-num" aria-hidden="true">1</span><span>Sit at the edge of a chair with good posture. Extend one leg straight in front of you.</span></div>
+              <div class="ex-step"><span class="step-num" aria-hidden="true">2</span><span>Flex your foot (toes toward you) while gently tilting your chin to your chest.</span></div>
+              <div class="ex-step"><span class="step-num" aria-hidden="true">3</span><span>Then point toes away and gently look up — creating a neural "floss."</span></div>
+              <div class="ex-step"><span class="step-num" aria-hidden="true">4</span><span>Repeat 10 slow reps per leg. Stop if you feel sharp pain. Perform once daily.</span></div>
             </div>
           </div>
         </div>
@@ -190,9 +136,8 @@
 
       <div class="accordion fade-in" role="list" aria-label="Wellness tips accordion">
 
-        <!-- Item 1 (open by default) -->
         <div class="accordion-item" role="listitem">
-          <button class="accordion-trigger" aria-expanded="true" aria-controls="acc-body-1" id="acc-trigger-1">
+          <button class="accordion-trigger open" aria-expanded="true" aria-controls="acc-body-1" id="acc-trigger-1">
             Hydration &amp; Connective Tissue Health
             <span class="accordion-icon" aria-hidden="true">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
@@ -200,7 +145,7 @@
           </button>
           <div class="accordion-body open" id="acc-body-1" role="region" aria-labelledby="acc-trigger-1">
             <div class="accordion-body__inner">
-              <p>Proper hydration is foundational to visceral health. Your organs, fascia, and connective tissue are largely composed of water — and dehydration creates stiffness and restriction throughout the entire system.</p>
+              <p>Proper hydration is foundational to visceral health. Your organs, fascia, and connective tissue are largely composed of water — dehydration creates stiffness and restriction throughout the entire system.</p>
               <ul>
                 <li>Aim for at least 8 glasses (64 oz) of filtered water daily, more if you are active.</li>
                 <li>Begin each morning with a large glass of warm water with lemon to stimulate digestive organ motility.</li>
@@ -212,7 +157,6 @@
           </div>
         </div>
 
-        <!-- Item 2 -->
         <div class="accordion-item" role="listitem">
           <button class="accordion-trigger" aria-expanded="false" aria-controls="acc-body-2" id="acc-trigger-2">
             Posture &amp; Organ Positioning
@@ -234,7 +178,6 @@
           </div>
         </div>
 
-        <!-- Item 3 -->
         <div class="accordion-item" role="listitem">
           <button class="accordion-trigger" aria-expanded="false" aria-controls="acc-body-3" id="acc-trigger-3">
             Stress, the Nervous System &amp; Pain
@@ -244,9 +187,9 @@
           </button>
           <div class="accordion-body" id="acc-body-3" role="region" aria-labelledby="acc-trigger-3">
             <div class="accordion-body__inner">
-              <p>Chronic stress activates the sympathetic nervous system, causing muscles to tighten, organs to restrict, and pain sensitivity to increase. Managing stress is not optional — it is an essential part of your treatment plan.</p>
+              <p>Chronic stress activates the sympathetic nervous system, causing muscles to tighten, organs to restrict, and pain sensitivity to increase. Managing stress is an essential part of your treatment plan.</p>
               <ul>
-                <li>Practice 5 minutes of diaphragmatic breathing before bed to activate the parasympathetic (rest-and-digest) nervous system.</li>
+                <li>Practice 5 minutes of diaphragmatic breathing before bed to activate the parasympathetic nervous system.</li>
                 <li>Gentle yoga or tai chi 2–3 times per week reduces cortisol levels and improves fascial mobility.</li>
                 <li>Journaling about pain and stress patterns can help identify triggers that worsen your symptoms.</li>
                 <li>Cold-water face immersion for 30 seconds activates the dive reflex and rapidly calms the nervous system.</li>
@@ -256,7 +199,6 @@
           </div>
         </div>
 
-        <!-- Item 4 -->
         <div class="accordion-item" role="listitem">
           <button class="accordion-trigger" aria-expanded="false" aria-controls="acc-body-4" id="acc-trigger-4">
             Nutrition for Tissue Healing &amp; Inflammation
@@ -282,9 +224,6 @@
     </div>
   </section>
 
-  <!-- ══════════════════════════════════════════
-       CTA STRIP
-  ══════════════════════════════════════════ -->
   <section class="cta-strip" aria-label="Call to action">
     <div class="container fade-in">
       <span class="section__eyebrow" style="color:var(--light-blue);">Ready to Start Healing?</span>
@@ -294,9 +233,6 @@
     </div>
   </section>
 
-  <!-- ══════════════════════════════════════════
-       FOOTER
-  ══════════════════════════════════════════ -->
   <footer class="footer" role="contentinfo">
     <div class="container">
       <div class="footer__grid">

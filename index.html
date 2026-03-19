@@ -9,50 +9,43 @@
 </head>
 <body>
 
-  <!-- ══════════════════════════════════════════
-       NAVBAR
-  ══════════════════════════════════════════ -->
   <nav class="navbar" role="navigation" aria-label="Main navigation">
     <div class="container">
-      <!-- Logo -->
       <a href="index.html" class="nav-logo" aria-label="Symphony & Harmony Physical Therapy Home">
         <img src="images/logo.jpg" alt="Symphony & Harmony logo" class="nav-logo__img" />
         <span class="nav-logo__name">Symphony &amp; Harmony</span>
         <span class="nav-logo__sub">Physical Therapy</span>
       </a>
-
-      <!-- Hamburger -->
       <button class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
-
-      <!-- Links -->
       <ul class="nav-links" role="list">
-        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html" class="active">Home</a></li>
         <li><a href="about.html">About</a></li>
         <li><a href="services.html">Services</a></li>
         <li><a href="health.html">Health Advice</a></li>
         <li><a href="contact.html">Contact</a></li>
       </ul>
-
-      <!-- CTA -->
       <a href="contact.html" class="btn btn--primary nav-cta">Book a Call</a>
     </div>
   </nav>
 
   <!-- ══════════════════════════════════════════
-       HERO
+       HERO with typewriter
   ══════════════════════════════════════════ -->
   <section class="hero" aria-label="Hero">
     <div class="hero__bg">
-      <img src="images/home.jpg" alt="Symphony & Harmony clinic" class="hero__bg-img" />
+      <img src="images/home.jpg" alt="Symphony & Harmony clinic" />
     </div>
     <div class="hero__overlay" aria-hidden="true"></div>
     <div class="hero__content fade-in">
       <p class="section__eyebrow" style="color:var(--light-blue);">Visceral Manipulation Specialist · Marlboro, NJ</p>
-      <h1>Your Pain Has Origins<br>You Never Considered</h1>
+      <h1>Pain You Never Knew<br>Had a <span class="typewriter hero-typewriter" data-words="Source,Solution,Name,Answer"></span></h1>
       <p>Dr. Svetlana Friedman uses advanced visceral and neural manipulation techniques to uncover and treat the true source of your pain — not just the symptoms.</p>
-      <a href="contact.html" class="btn btn--outline btn--lg">Book a Free Consultation</a>
+      <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+        <a href="contact.html" class="btn btn--outline btn--lg">Book a Free Consultation</a>
+        <button class="btn btn--lg" style="background:rgba(255,255,255,0.12);color:#fff;border:2px solid rgba(255,255,255,0.3);" data-modal="vm">What Is VM? →</button>
+      </div>
     </div>
   </section>
 
@@ -61,15 +54,15 @@
   ══════════════════════════════════════════ -->
   <div class="stats-bar" aria-label="Practice statistics">
     <div class="container">
-      <div class="stat-item fade-in">
+      <div class="stat-item fade-in" data-tooltip="Over 15 years in clinical practice">
         <div class="stat-item__number">15+</div>
         <div class="stat-item__label">Years Experience</div>
       </div>
-      <div class="stat-item fade-in fade-in--delay-1">
+      <div class="stat-item fade-in fade-in--delay-1" data-tooltip="Patients who found relief when nothing else worked">
         <div class="stat-item__number">2,400+</div>
         <div class="stat-item__label">Patients Helped</div>
       </div>
-      <div class="stat-item fade-in fade-in--delay-2">
+      <div class="stat-item fade-in fade-in--delay-2" data-tooltip="Reported improvement after treatment">
         <div class="stat-item__number">98%</div>
         <div class="stat-item__label">Satisfaction Rate</div>
       </div>
@@ -82,24 +75,24 @@
   <section class="section" id="visceral-manipulation" aria-labelledby="vm-heading">
     <div class="container">
       <div class="two-col">
-        <!-- Text left -->
-        <div class="fade-in">
+        <div class="slide-in-left">
           <span class="section__eyebrow">The Approach</span>
           <h2 id="vm-heading">What Is Visceral Manipulation?</h2>
-          <p>Visceral Manipulation (VM) is a gentle, hands-on therapy developed by French osteopath Jean-Pierre Barral. It works with the body's internal organs — or viscera — and their connective tissue to release restrictions that cause pain, postural problems, and dysfunction throughout the body.</p>
+          <p>Visceral Manipulation (VM) is a gentle, hands-on therapy developed by French osteopath Jean-Pierre Barral. It works with the body's internal organs — or viscera — and their connective tissue to release restrictions that cause pain throughout the body.</p>
           <p style="margin-top:1rem;">Unlike conventional physical therapy that focuses solely on muscles and joints, VM recognizes that your organs are in constant motion and that restrictions in their movement can create compensatory patterns felt far from the original source.</p>
           <ul class="dot-list" style="margin-top:1.25rem;">
             <li>Gentle, non-invasive manual therapy technique</li>
             <li>Addresses the relationship between organs, fascia, and the musculoskeletal system</li>
             <li>Treats chronic pain, digestive issues, and post-surgical adhesions</li>
             <li>Certified through the Barral Institute — the gold standard in VM training</li>
-            <li>Complements traditional physical therapy and other modalities</li>
           </ul>
-          <a href="services.html" class="btn btn--primary" style="margin-top:1.75rem;">Explore Our Services</a>
+          <div style="display:flex;gap:0.75rem;flex-wrap:wrap;margin-top:1.75rem;">
+            <a href="services.html" class="btn btn--primary">Explore Our Services</a>
+            <button class="btn btn--outline-navy" data-modal="nm" data-tooltip="Learn about Neural Manipulation">Neural Manipulation →</button>
+          </div>
         </div>
-        <!-- Image/video placeholder right -->
-        <div class="fade-in fade-in--delay-1">
-            <img src="images/Visceral Manipulation Treatment.jpg" alt="Visceral Manipulation demonstration" style="width:100%; aspect-ratio:4/3; border-radius:var(--radius); object-fit:cover;" />
+        <div class="slide-in-right">
+          <img src="images/Visceral Manipulation Treatment.jpg" alt="Visceral Manipulation demonstration" style="width:100%; aspect-ratio:4/3; border-radius:var(--radius-lg); object-fit:cover; box-shadow:var(--shadow-lg);" />
         </div>
       </div>
     </div>
@@ -116,28 +109,31 @@
         <p>Our approach is rooted in the belief that true healing requires treating the whole person — not just the site of pain.</p>
       </div>
       <div class="why-cards">
-        <div class="why-card fade-in">
+        <div class="why-card scale-in" data-tooltip="Click to learn more" data-modal="vm">
           <div class="why-card__accent"></div>
           <div class="why-card__body">
             <div class="why-card__badge">01</div>
             <h3>Whole-Body Treatment</h3>
             <p>We evaluate and treat the entire body as an interconnected system. Pain in your shoulder may originate from a restriction in your liver — we find the true source.</p>
+            <span style="font-size:0.8rem;color:var(--primary);font-weight:600;margin-top:0.5rem;display:block;">Learn about Visceral Manipulation →</span>
           </div>
         </div>
-        <div class="why-card fade-in fade-in--delay-1">
+        <div class="why-card scale-in" style="transition-delay:0.1s;" data-tooltip="Click to learn more" data-modal="dr">
           <div class="why-card__accent" style="background:var(--medium-blue);"></div>
           <div class="why-card__body">
             <div class="why-card__badge">02</div>
             <h3>Body-Directed Healing</h3>
             <p>We listen to what your body is telling us. Using gentle palpation and listening techniques, we follow the body's own signals to identify and release restrictions.</p>
+            <span style="font-size:0.8rem;color:var(--primary);font-weight:600;margin-top:0.5rem;display:block;">Dr. Friedman's philosophy →</span>
           </div>
         </div>
-        <div class="why-card fade-in fade-in--delay-2">
+        <div class="why-card scale-in" style="transition-delay:0.2s;" data-tooltip="Click to learn more" data-modal="nm">
           <div class="why-card__accent" style="background:var(--light-blue);"></div>
           <div class="why-card__body">
             <div class="why-card__badge">03</div>
             <h3>Natural Restoration</h3>
             <p>Our goal is to restore your body's natural capacity for self-healing — without drugs, injections, or surgery. Sustainable relief through structural balance.</p>
+            <span style="font-size:0.8rem;color:var(--primary);font-weight:600;margin-top:0.5rem;display:block;">Learn about Neural Manipulation →</span>
           </div>
         </div>
       </div>
@@ -152,85 +148,61 @@
       <div class="section__header fade-in">
         <span class="section__eyebrow">Patient Stories</span>
         <h2 id="testimonials-heading">What Our Patients Say</h2>
-        <p>Real results from real people who found relief when nothing else worked.</p>
+        <p>Real results from real people who found relief when nothing else worked. <strong style="color:var(--primary);font-size:0.88rem;">Click any card to read the full story.</strong></p>
       </div>
 
       <div class="testimonial-track-wrap fade-in">
         <div class="testimonial-track">
 
-          <!-- Testimonial 1 -->
-          <div class="testimonial-card">
+          <div class="testimonial-card" style="cursor:pointer;" data-tooltip="Click to expand">
             <div class="testimonial-card__header">
               <div class="testimonial-avatar" aria-hidden="true">MR</div>
-              <div>
-                <div class="testimonial-card__name">Margaret R.</div>
-                <div class="testimonial-card__condition">Chronic Lower Back Pain</div>
-              </div>
+              <div><div class="testimonial-card__name">Margaret R.</div><div class="testimonial-card__condition">Chronic Lower Back Pain</div></div>
             </div>
             <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
             <p class="testimonial-card__quote">After years of failed treatments, Dr. Friedman found the real cause of my back pain in just two sessions. I had no idea my digestive issues were connected. I'm now pain-free for the first time in a decade.</p>
           </div>
 
-          <!-- Testimonial 2 -->
-          <div class="testimonial-card">
+          <div class="testimonial-card" style="cursor:pointer;" data-tooltip="Click to expand">
             <div class="testimonial-card__header">
               <div class="testimonial-avatar" aria-hidden="true">JK</div>
-              <div>
-                <div class="testimonial-card__name">James K.</div>
-                <div class="testimonial-card__condition">Post-Surgical Recovery</div>
-              </div>
+              <div><div class="testimonial-card__name">James K.</div><div class="testimonial-card__condition">Post-Surgical Recovery</div></div>
             </div>
             <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
             <p class="testimonial-card__quote">Following my abdominal surgery, I had persistent pain that no one could explain. Dr. Friedman's visceral manipulation cleared the adhesions and I recovered faster than my surgeon expected.</p>
           </div>
 
-          <!-- Testimonial 3 -->
-          <div class="testimonial-card">
+          <div class="testimonial-card" style="cursor:pointer;" data-tooltip="Click to expand">
             <div class="testimonial-card__header">
               <div class="testimonial-avatar" aria-hidden="true">AL</div>
-              <div>
-                <div class="testimonial-card__name">Angela L.</div>
-                <div class="testimonial-card__condition">Migraines &amp; Neck Pain</div>
-              </div>
+              <div><div class="testimonial-card__name">Angela L.</div><div class="testimonial-card__condition">Migraines &amp; Neck Pain</div></div>
             </div>
             <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
             <p class="testimonial-card__quote">My migraines were debilitating. Through neural manipulation, Dr. Friedman identified nerve restrictions I never knew existed. My headache frequency dropped by 80% within a month.</p>
           </div>
 
-          <!-- Testimonial 4 -->
-          <div class="testimonial-card">
+          <div class="testimonial-card" style="cursor:pointer;" data-tooltip="Click to expand">
             <div class="testimonial-card__header">
               <div class="testimonial-avatar" aria-hidden="true">DP</div>
-              <div>
-                <div class="testimonial-card__name">David P.</div>
-                <div class="testimonial-card__condition">Hip &amp; Pelvic Pain</div>
-              </div>
+              <div><div class="testimonial-card__name">David P.</div><div class="testimonial-card__condition">Hip &amp; Pelvic Pain</div></div>
             </div>
             <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
             <p class="testimonial-card__quote">I was told I needed hip replacement surgery. Dr. Friedman's whole-body approach revealed organ restrictions were pulling on my hip. After 6 sessions, I cancelled the surgery. Truly remarkable.</p>
           </div>
 
-          <!-- Testimonial 5 -->
-          <div class="testimonial-card">
+          <div class="testimonial-card" style="cursor:pointer;" data-tooltip="Click to expand">
             <div class="testimonial-card__header">
               <div class="testimonial-avatar" aria-hidden="true">SN</div>
-              <div>
-                <div class="testimonial-card__name">Sandra N.</div>
-                <div class="testimonial-card__condition">IBS &amp; Abdominal Pain</div>
-              </div>
+              <div><div class="testimonial-card__name">Sandra N.</div><div class="testimonial-card__condition">IBS &amp; Abdominal Pain</div></div>
             </div>
             <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
             <p class="testimonial-card__quote">I struggled with IBS for 8 years. Dr. Friedman's gentle approach to visceral manipulation has given me my life back. My digestion has improved dramatically and the pain is gone.</p>
           </div>
 
-          <!-- Testimonial 6 -->
-          <div class="testimonial-card">
+          <div class="testimonial-card" style="cursor:pointer;" data-tooltip="Click to expand">
             <div class="testimonial-card__header">
               <div class="testimonial-avatar" aria-hidden="true">TC</div>
-              <div>
-                <div class="testimonial-card__name">Thomas C.</div>
-                <div class="testimonial-card__condition">Shoulder &amp; Arm Pain</div>
-              </div>
+              <div><div class="testimonial-card__name">Thomas C.</div><div class="testimonial-card__condition">Shoulder &amp; Arm Pain</div></div>
             </div>
             <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
             <p class="testimonial-card__quote">My shoulder pain turned out to be connected to my liver. I was skeptical at first, but after treatment I had full range of motion back. Dr. Friedman is in a league of her own.</p>
@@ -239,7 +211,6 @@
         </div>
       </div>
 
-      <!-- Controls -->
       <div class="carousel-controls fade-in">
         <button class="carousel-btn carousel-btn--prev" aria-label="Previous testimonials">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
@@ -253,21 +224,31 @@
   </section>
 
   <!-- ══════════════════════════════════════════
-       FOOTER
+       CTA STRIP
   ══════════════════════════════════════════ -->
+  <section class="cta-strip" aria-label="Call to action">
+    <div class="container fade-in">
+      <span class="section__eyebrow" style="color:var(--light-blue);">Take the First Step</span>
+      <h2>Ready to Find the Source of Your Pain?</h2>
+      <p>Schedule a consultation with Dr. Friedman and discover what's really behind your symptoms.</p>
+      <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+        <a href="contact.html" class="btn btn--outline btn--lg">Book a Free Consultation</a>
+        <a href="services.html" class="btn btn--lg" style="background:rgba(255,255,255,0.1);color:#fff;border:2px solid rgba(255,255,255,0.25);">View All Services</a>
+      </div>
+    </div>
+  </section>
+
   <footer class="footer" role="contentinfo">
     <div class="container">
       <div class="footer__grid">
-        <!-- Brand -->
         <div class="footer__brand">
           <div class="nav-logo">
-              <img src="images/logo.jpg" alt="Symphony & Harmony logo" class="nav-logo__img" />
-              <span class="nav-logo__name">Symphony &amp; Harmony</span>
-              <span class="nav-logo__sub">Physical Therapy</span>
-            </div>
+            <img src="images/logo.jpg" alt="Symphony & Harmony logo" class="nav-logo__img" />
+            <span class="nav-logo__name">Symphony &amp; Harmony</span>
+            <span class="nav-logo__sub">Physical Therapy</span>
+          </div>
           <p>Specialized visceral and neural manipulation therapy in Marlboro, NJ. Treating the root cause of pain — not just the symptoms.</p>
         </div>
-        <!-- Quick Links -->
         <div class="footer__col">
           <h4>Quick Links</h4>
           <ul>
@@ -278,7 +259,6 @@
             <li><a href="contact.html">Contact &amp; Booking</a></li>
           </ul>
         </div>
-        <!-- Contact -->
         <div class="footer__col">
           <h4>Contact</h4>
           <div class="footer__contact-item">
@@ -299,13 +279,18 @@
           </div>
         </div>
       </div>
-
       <div class="footer__bottom">
         <span>&copy; 2025 Symphony &amp; Harmony Physical Therapy. All rights reserved.</span>
         <span>Dr. Svetlana Friedman, PT, DPT — Marlboro, NJ</span>
       </div>
     </div>
   </footer>
+
+  <!-- Hero typewriter cursor blink -->
+  <style>
+    .hero-typewriter { border-right: 3px solid var(--light-blue); padding-right: 2px; animation: blink-cursor 0.8s step-end infinite; }
+    @keyframes blink-cursor { 0%,100%{border-color:var(--light-blue);} 50%{border-color:transparent;} }
+  </style>
 
   <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
   <script src="js/main.js"></script>
