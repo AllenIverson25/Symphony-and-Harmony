@@ -1,33 +1,9 @@
 /* ============================================================
    Symphony & Harmony PT — contact.js
-   Multi-step appointment form with EmailJS integration
-   ============================================================
-
-   SETUP INSTRUCTIONS (one-time):
-   1. Create a free account at https://www.emailjs.com
-   2. Add an Email Service (Gmail, Outlook, etc.) → copy the Service ID
-   3. Create two Email Templates:
-      a) "appt_notification" — sent to the clinic (Dr. Friedman)
-         Template variables: {{patient_name}}, {{email}}, {{phone}},
-         {{reason}}, {{preferred_date}}, {{preferred_time}},
-         {{duration}}, {{surgery}}, {{prev_pt}}, {{digestive}},
-         {{pain_level}}, {{additional_info}}, {{submission_date}}
-      b) "appt_confirmation" — sent to the patient
-         Template variables: {{patient_name}}, {{reason}},
-         {{preferred_date}}, {{preferred_time}}, {{submission_date}}
-   4. Replace the three constants below with your actual IDs.
-
+   Multi-step appointment form with Formspree integration
    ============================================================ */
 
-const EMAILJS_PUBLIC_KEY       = 'GxMqnnh7uSlokHMjo';
-const EMAILJS_SERVICE_ID       = 'service_riv0k7s';
-const EMAILJS_TEMPLATE_CLINIC  = 'template_p7ezwlo';
-const EMAILJS_TEMPLATE_PATIENT = 'template_8byilez';
-
-/* ── Initialize EmailJS ── */
-if (typeof emailjs !== 'undefined') {
-  emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
-}
+const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mzdkppky';
 
 $(document).ready(function () {
 
@@ -59,20 +35,17 @@ $(document).ready(function () {
 
   /* ── Navigate to a step ── */
   function goToStep(n) {
-    // If going to review step, populate summary
     if (n === 3) populateReview();
 
     $('.form-step').removeClass('active').attr('aria-hidden', true);
     $(`#step-${n}`).addClass('active').removeAttr('aria-hidden');
 
-    // Update step indicators
     $('.step-indicator').each(function () {
       const s = parseInt($(this).data('step'));
       $(this).toggleClass('active', s <= n);
       $(this).toggleClass('completed', s < n);
     });
 
-    // Scroll form card into view smoothly
     const $card = $('.appt-form-card')[0];
     if ($card) $card.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
@@ -92,13 +65,11 @@ $(document).ready(function () {
           clearError($f);
         }
       });
-      // Email format
       const emailVal = $('#email').val().trim();
       if (emailVal && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)) {
         showError($('#email'), 'Please enter a valid email address.');
         valid = false;
       }
-      // Phone format (loose)
       const phoneVal = $('#phone').val().replace(/\D/g, '');
       if (phoneVal && phoneVal.length < 10) {
         showError($('#phone'), 'Please enter a valid 10-digit phone number.');
@@ -195,7 +166,7 @@ $(document).ready(function () {
     $('#review-summary').html(html);
   }
 
-  /* ── Form Submit ── */
+  /* ── Form Submit via Formspree ── */
   $('#appointment-form').on('submit', function (e) {
     e.preventDefault();
 
@@ -228,50 +199,44 @@ $(document).ready(function () {
     const dateDisplay = prefDate
       ? new Date(prefDate + 'T00:00:00').toLocaleDateString('en-US', { weekday:'long', year:'numeric', month:'long', day:'numeric' })
       : 'Flexible';
-    const submissionDate = new Date().toLocaleDateString('en-US', { weekday:'long', year:'numeric', month:'long', day:'numeric', hour:'2-digit', minute:'2-digit' });
+    const submissionDate = new Date().toLocaleDateString('en-US', {
+      weekday:'long', year:'numeric', month:'long', day:'numeric', hour:'2-digit', minute:'2-digit'
+    });
 
-    const templateParams = {
-      patient_name:     fullName,
+    // Build form data for Formspree
+    const formData = {
+      name:             fullName,
       email:            email,
       phone:            phone,
       reason:           reason,
       preferred_date:   dateDisplay,
       preferred_time:   prefDate ? prefTime : 'Flexible',
-      duration:         duration,
-      surgery:          surgery,
-      prev_pt:          prevPt,
-      digestive:        digestive,
+      symptom_duration: duration,
+      prior_surgery:    surgery,
+      previous_pt:      prevPt,
+      digestive_issues: digestive,
       pain_level:       painLevel + ' / 10',
       additional_info:  additional || 'None',
       submission_date:  submissionDate,
-      reply_to:         email,
+      _subject:         `New Appointment Request — ${fullName} (${reason})`,
+      _replyto:         email,
     };
 
-    /* ── Send emails if EmailJS is configured ── */
-    const emailjsReady = EMAILJS_PUBLIC_KEY !== 'YOUR_PUBLIC_KEY' && typeof emailjs !== 'undefined';
-
-    if (emailjsReady) {
-      // Send to clinic
-      const send1 = emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_CLINIC, {
-        ...templateParams, to_email: 'info@symphonyharmonypt.com'
-      });
-      // Send confirmation to patient
-      const send2 = emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_PATIENT, {
-        ...templateParams, to_email: email
-      });
-
-      Promise.all([send1, send2])
-        .then(() => showSuccess(email))
-        .catch(err => {
-          console.error('EmailJS error:', err);
-          // Still show success — form data is captured
-          showSuccess(email);
-        });
-    } else {
-      // EmailJS not yet configured — simulate success after short delay
-      // In production, replace with your real service IDs above
-      setTimeout(() => showSuccess(email), 1200);
-    }
+    $.ajax({
+      url:         FORMSPREE_ENDPOINT,
+      method:      'POST',
+      data:        JSON.stringify(formData),
+      contentType: 'application/json',
+      dataType:    'json',
+    })
+    .done(function () {
+      showSuccess(email);
+    })
+    .fail(function (xhr) {
+      console.error('Formspree error:', xhr);
+      $btn.removeClass('loading').prop('disabled', false);
+      $('#send-error').show();
+    });
   });
 
   function showSuccess(email) {

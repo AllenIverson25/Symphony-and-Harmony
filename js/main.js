@@ -475,7 +475,19 @@ $(document).ready(function () {
       });
     });
   }
-
+/* ══════════════════════════════════════════════════════════
+     20. FULLSCREEN HERO — hide scroll arrow after user scrolls
+  ══════════════════════════════════════════════════════════ */
+  const $scrollCta = $('.hero-scroll-cta');
+  if ($scrollCta.length) {
+    $(window).on('scroll.scrollcta', function () {
+      if ($(this).scrollTop() > 80) {
+        $scrollCta.addClass('hidden');
+      } else {
+        $scrollCta.removeClass('hidden');
+      }
+    });
+  }
 });
 
 /* ══════════════════════════════════════════════════════════

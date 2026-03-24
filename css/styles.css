@@ -1237,3 +1237,97 @@ body.page-leaving { opacity: 0; }
   .float-cta__btn span { display: none; }
   .float-cta__btn { padding: 0.85rem; border-radius: 50%; }
 }
+/* ============================================================
+   FULLSCREEN HERO (home page only)
+   ============================================================ */
+
+/* Make the hero fill the full viewport height */
+.hero--fullscreen {
+  min-height: 100vh;
+  min-height: 100dvh; /* dynamic viewport for mobile browsers */
+}
+
+/* Push content up slightly so the scroll arrow has breathing room */
+.hero--fullscreen .hero__content {
+  padding-bottom: 7rem; /* room for the scroll arrow */
+}
+
+/* ── Scroll-down CTA ── */
+.hero-scroll-cta {
+  position: absolute;
+  bottom: 2.25rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  color: rgba(255, 255, 255, 0.75);
+  text-decoration: none;
+  z-index: 3;
+  transition: color var(--transition);
+
+  /* Fade in after a short delay so it doesn't compete with hero content */
+  opacity: 0;
+  animation: scrollCtaFadeIn 0.8s ease 1.2s forwards;
+}
+
+.hero-scroll-cta:hover {
+  color: var(--white);
+}
+
+.hero-scroll-cta__text {
+  font-family: var(--font-head);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* Animated bounce arrow */
+.hero-scroll-cta__arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 255, 255, 0.45);
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  transition: background var(--transition), border-color var(--transition);
+  animation: scrollBounce 2s ease-in-out infinite;
+}
+
+.hero-scroll-cta:hover .hero-scroll-cta__arrow {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.8);
+}
+
+@keyframes scrollBounce {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(6px); }
+}
+
+@keyframes scrollCtaFadeIn {
+  from { opacity: 0; transform: translateX(-50%) translateY(10px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+/* Hide scroll arrow once user has scrolled past the hero */
+.hero-scroll-cta.hidden {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .hero--fullscreen .hero__content {
+    padding-bottom: 6rem;
+  }
+  .hero-scroll-cta {
+    bottom: 1.75rem;
+  }
+}

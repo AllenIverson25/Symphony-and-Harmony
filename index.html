@@ -31,9 +31,9 @@
   </nav>
 
   <!-- ══════════════════════════════════════════
-       HERO with typewriter
+       FULLSCREEN HERO
   ══════════════════════════════════════════ -->
-  <section class="hero" aria-label="Hero">
+  <section class="hero hero--fullscreen" aria-label="Hero">
     <div class="hero__bg">
       <img src="images/home.jpg" alt="Symphony & Harmony clinic" />
     </div>
@@ -47,12 +47,22 @@
         <button class="btn btn--lg" style="background:rgba(255,255,255,0.12);color:#fff;border:2px solid rgba(255,255,255,0.3);" data-modal="vm">What Is VM? →</button>
       </div>
     </div>
+
+    <!-- Scroll down arrow -->
+    <a href="#stats-section" class="hero-scroll-cta" aria-label="Scroll down to explore">
+      <span class="hero-scroll-cta__text">Scroll to explore</span>
+      <span class="hero-scroll-cta__arrow" aria-hidden="true">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="6 9 12 15 18 9" />
+        </svg>
+      </span>
+    </a>
   </section>
 
   <!-- ══════════════════════════════════════════
        STATS BAR
   ══════════════════════════════════════════ -->
-  <div class="stats-bar" aria-label="Practice statistics">
+  <div class="stats-bar" id="stats-section" aria-label="Practice statistics">
     <div class="container">
       <div class="stat-item fade-in" data-tooltip="Over 15 years in clinical practice">
         <div class="stat-item__number">15+</div>
