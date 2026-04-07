@@ -1,8 +1,5 @@
 /* ============================================================
    Symphony & Harmony Physical Therapy — main.js
-   Enhanced: scroll animations, modals, parallax, counters,
-   tooltips, floating CTA, sticky nav, micro-interactions,
-   page transitions, magnetic buttons, back-to-top
    ============================================================ */
 
 $(document).ready(function () {
@@ -19,7 +16,7 @@ $(document).ready(function () {
   });
 
   /* ══════════════════════════════════════════════════════════
-     2. NAVBAR — scroll shrink + hamburger
+     2. NAVBAR — scroll shrink + hamburger (FIXED)
   ══════════════════════════════════════════════════════════ */
   const $navbar = $('.navbar');
   $(window).on('scroll.navbar', function () {
@@ -29,22 +26,38 @@ $(document).ready(function () {
   const $toggle   = $('.nav-toggle');
   const $navLinks = $('.nav-links');
 
-  $toggle.on('click', function () {
+  $toggle.on('click', function (e) {
+    e.stopPropagation();
+    const isOpen = $navLinks.hasClass('open');
     $toggle.toggleClass('open');
     $navLinks.toggleClass('open');
-    $('body').css('overflow', $navLinks.hasClass('open') ? 'hidden' : '');
+    $toggle.attr('aria-expanded', !isOpen);
+    // Prevent body scroll when menu open
+    $('body').css('overflow', !isOpen ? 'hidden' : '');
   });
 
+  // Close nav when a link is clicked
   $navLinks.find('a').on('click', function () {
-    $toggle.removeClass('open');
+    $toggle.removeClass('open').attr('aria-expanded', false);
     $navLinks.removeClass('open');
     $('body').css('overflow', '');
   });
 
-  $(document).on('click', function (e) {
-    if (!$toggle.is(e.target) && !$toggle.has(e.target).length &&
+  // Close nav when clicking outside
+  $(document).on('click.navclose', function (e) {
+    if ($navLinks.hasClass('open') &&
+        !$toggle.is(e.target) && !$toggle.has(e.target).length &&
         !$navLinks.is(e.target) && !$navLinks.has(e.target).length) {
-      $toggle.removeClass('open');
+      $toggle.removeClass('open').attr('aria-expanded', false);
+      $navLinks.removeClass('open');
+      $('body').css('overflow', '');
+    }
+  });
+
+  // Close nav on Escape
+  $(document).on('keydown.navclose', function (e) {
+    if (e.key === 'Escape' && $navLinks.hasClass('open')) {
+      $toggle.removeClass('open').attr('aria-expanded', false);
       $navLinks.removeClass('open');
       $('body').css('overflow', '');
     }
@@ -54,7 +67,6 @@ $(document).ready(function () {
      3. SCROLL PROGRESS BAR
   ══════════════════════════════════════════════════════════ */
   const $scrollBar = $('<div class="scroll-progress-bar"></div>').prependTo('body');
-
   $(window).on('scroll.progress', function () {
     const scrollTop = $(this).scrollTop();
     const docHeight = $(document).height() - $(this).height();
@@ -75,7 +87,6 @@ $(document).ready(function () {
     fadeEls.forEach(el => fadeObs.observe(el));
   }
 
-  // slide-in classes
   document.querySelectorAll('.slide-in-left, .slide-in-right, .scale-in').forEach(el => {
     const obs = new IntersectionObserver(entries => {
       entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
@@ -87,14 +98,14 @@ $(document).ready(function () {
      5. ANIMATED STAT COUNTERS
   ══════════════════════════════════════════════════════════ */
   function animateCounter($el) {
-    const target    = parseInt($el.data('target'));
-    const suffix    = $el.data('suffix') || '';
-    const dur       = 1800;
-    const step      = 16;
-    const steps     = dur / step;
-    let current     = 0;
-    const inc       = target / steps;
-    const timer     = setInterval(() => {
+    const target = parseInt($el.data('target'));
+    const suffix = $el.data('suffix') || '';
+    const dur    = 1800;
+    const step   = 16;
+    const steps  = dur / step;
+    let current  = 0;
+    const inc    = target / steps;
+    const timer  = setInterval(() => {
       current += inc;
       if (current >= target) { current = target; clearInterval(timer); }
       $el.text(Math.floor(current).toLocaleString() + suffix);
@@ -109,7 +120,6 @@ $(document).ready(function () {
       $(this).attr('data-suffix', raw.replace(/[\d,]/g, ''));
       $(this).text('0');
     });
-
     const counterObs = new IntersectionObserver(entries => {
       entries.forEach(e => {
         if (e.isIntersecting) {
@@ -211,24 +221,76 @@ $(document).ready(function () {
     });
 
     $track.on('mouseenter', () => clearInterval(autoTimer)).on('mouseleave', startAuto);
-
     buildDots();
     startAuto();
     $(window).on('resize', () => { buildDots(); goTo(0); });
   }
 
   /* ══════════════════════════════════════════════════════════
-     9. ACCORDION
+     9. ACCORDION — Enhanced with icons
   ══════════════════════════════════════════════════════════ */
+
+  // Map topics to icons
+  const accordionIcons = {
+    0: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>`,
+    1: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/></svg>`,
+    2: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>`,
+    3: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/><path d="M12 8v8"/></svg>`,
+  };
+
+  // Enhance accordion triggers with icon wrappers if on health page
   $('.accordion-trigger').each(function (idx) {
     const $trigger = $(this);
+    const text     = $trigger.contents().not('.accordion-icon').text().trim();
+    const $icon    = $trigger.find('.accordion-icon');
+    const icon     = accordionIcons[idx] || accordionIcons[0];
+
+    // Rebuild trigger content
+    $trigger.html(`
+      <span class="accordion-trigger-left">
+        <span class="accordion-trigger-icon">${icon}</span>
+        <span>${text}</span>
+      </span>
+      <span class="accordion-icon" aria-hidden="true">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </span>
+    `);
+  });
+
+  // Accordion open/close logic
+  $('.accordion-trigger').each(function (idx) {
+    const $trigger = $(this);
+    const $item    = $trigger.closest('.accordion-item');
     const $body    = $trigger.next('.accordion-body');
-    if (idx === 0) { $trigger.addClass('open'); $body.addClass('open'); }
+
+    // Open first by default
+    if (idx === 0) {
+      $trigger.addClass('open');
+      $body.addClass('open');
+      $item.addClass('is-open');
+    }
+
     $trigger.on('click', function () {
-      const open = $trigger.hasClass('open');
+      const isOpen = $trigger.hasClass('open');
+
+      // Close all
       $('.accordion-trigger').removeClass('open');
       $('.accordion-body').removeClass('open');
-      if (!open) { $trigger.addClass('open'); $body.addClass('open'); }
+      $('.accordion-item').removeClass('is-open');
+
+      // Open clicked if it was closed
+      if (!isOpen) {
+        $trigger.addClass('open');
+        $body.addClass('open');
+        $item.addClass('is-open');
+        // Smooth scroll into view
+        setTimeout(() => {
+          const offset = $item.offset().top - 120;
+          if ($(window).scrollTop() > $item.offset().top) {
+            $('html,body').animate({ scrollTop: offset }, 300);
+          }
+        }, 100);
+      }
     });
   });
 
@@ -331,7 +393,7 @@ $(document).ready(function () {
   $(document).on('keydown', function (e) { if (e.key === 'Escape') { closeModal(); closeLightbox(); } });
 
   /* ══════════════════════════════════════════════════════════
-     12. TESTIMONIAL LIGHTBOX (click to expand)
+     12. TESTIMONIAL LIGHTBOX
   ══════════════════════════════════════════════════════════ */
   const $lightbox = $(`
     <div class="modal-overlay" id="test-lightbox" role="dialog" aria-modal="true" aria-label="Patient story" tabindex="-1">
@@ -373,14 +435,17 @@ $(document).ready(function () {
   $lightbox.find('.modal-close').on('click', closeLightbox);
 
   /* ══════════════════════════════════════════════════════════
-     13. TOOLTIPS — data-tooltip="..."
+     13. TOOLTIPS
   ══════════════════════════════════════════════════════════ */
   const $tooltip = $('<div class="site-tooltip" role="tooltip" aria-hidden="true"></div>').appendTo('body');
 
   $(document).on('mouseenter', '[data-tooltip]', function () {
     $tooltip.text($(this).data('tooltip')).addClass('visible');
     const r = this.getBoundingClientRect();
-    $tooltip.css({ top: r.top + window.scrollY - $tooltip.outerHeight() - 10, left: Math.max(8, r.left + r.width/2 - $tooltip.outerWidth()/2) });
+    $tooltip.css({
+      top:  r.top + window.scrollY - $tooltip.outerHeight() - 10,
+      left: Math.max(8, r.left + r.width/2 - $tooltip.outerWidth()/2)
+    });
   }).on('mouseleave', '[data-tooltip]', function () { $tooltip.removeClass('visible'); });
 
   /* ══════════════════════════════════════════════════════════
@@ -394,20 +459,30 @@ $(document).ready(function () {
   });
 
   /* ══════════════════════════════════════════════════════════
-     15. QUICK-NAV (services page)
+     15. QUICK-NAV (services page) — FIXED
   ══════════════════════════════════════════════════════════ */
   if (currentPage === 'services.html') {
+    // Insert quick-nav right after hero-strip, with no gaps
+    const $heroStrip = $('.hero-strip');
     const $qn = $(`
       <nav class="quick-nav" aria-label="Jump to section">
         <a href="#visceral-manipulation" class="quick-nav__item active">Visceral Manipulation</a>
         <a href="#neural-manipulation" class="quick-nav__item">Neural Manipulation</a>
         <a href="#who-can-benefit" class="quick-nav__item">Who Benefits</a>
       </nav>
-    `).insertAfter('.hero-strip');
+    `).insertAfter($heroStrip);
+
+    // Update quick-nav top dynamically with navbar height
+    function updateQuickNavTop() {
+      const navH = $navbar.outerHeight() || 72;
+      $qn.css('top', navH + 'px');
+    }
+    updateQuickNavTop();
+    $(window).on('scroll.qn resize.qn', updateQuickNavTop);
 
     const sections = ['visceral-manipulation','neural-manipulation','who-can-benefit'];
     $(window).on('scroll.qn', function () {
-      const scrollY = $(this).scrollTop() + 160;
+      const scrollY = $(this).scrollTop() + 200;
       sections.forEach(id => {
         const $s = $(`#${id}`);
         if ($s.length && scrollY >= $s.offset().top) {
@@ -430,20 +505,13 @@ $(document).ready(function () {
   $(window).on('scroll.backtop', function () {
     $(this).scrollTop() > 400 ? $backTop.addClass('visible') : $backTop.removeClass('visible');
   });
-
   $backTop.on('click', function () { $('html, body').animate({ scrollTop: 0 }, 500); });
 
   /* ══════════════════════════════════════════════════════════
-     17. MAGNETIC BUTTONS (desktop)
+     17. MAGNETIC BUTTONS — REMOVED (caused cursor-following)
+     Replaced with simple scale effect on hover
   ══════════════════════════════════════════════════════════ */
-  if (window.innerWidth > 1024) {
-    $(document).on('mousemove', '.btn--primary, .btn--outline', function (e) {
-      const r = this.getBoundingClientRect();
-      $(this).css('transform', `translate(${(e.clientX - r.left - r.width/2) * 0.2}px, ${(e.clientY - r.top - r.height/2) * 0.2}px)`);
-    }).on('mouseleave', '.btn--primary, .btn--outline', function () {
-      $(this).css('transform', '');
-    });
-  }
+  // No magnetic effect — buttons stay in place
 
   /* ══════════════════════════════════════════════════════════
      18. PAGE TRANSITION
@@ -475,24 +543,67 @@ $(document).ready(function () {
       });
     });
   }
-/* ══════════════════════════════════════════════════════════
+
+  /* ══════════════════════════════════════════════════════════
      20. FULLSCREEN HERO — hide scroll arrow after user scrolls
   ══════════════════════════════════════════════════════════ */
   const $scrollCta = $('.hero-scroll-cta');
   if ($scrollCta.length) {
     $(window).on('scroll.scrollcta', function () {
-      if ($(this).scrollTop() > 80) {
-        $scrollCta.addClass('hidden');
-      } else {
-        $scrollCta.removeClass('hidden');
-      }
+      $(this).scrollTop() > 80 ? $scrollCta.addClass('hidden') : $scrollCta.removeClass('hidden');
     });
   }
+
+  /* ══════════════════════════════════════════════════════════
+     21. EXERCISE CARD STEP COUNTER ANIMATION
+  ══════════════════════════════════════════════════════════ */
+  document.querySelectorAll('.ex-card').forEach(card => {
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          const steps = e.target.querySelectorAll('.ex-step');
+          steps.forEach((step, i) => {
+            step.style.opacity = '0';
+            step.style.transform = 'translateX(-12px)';
+            step.style.transition = `opacity 0.4s ease ${i * 0.1}s, transform 0.4s ease ${i * 0.1}s`;
+            setTimeout(() => {
+              step.style.opacity = '1';
+              step.style.transform = 'translateX(0)';
+            }, 50 + i * 100);
+          });
+          obs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.2 });
+    obs.observe(card);
+  });
+
+  /* ══════════════════════════════════════════════════════════
+     22. PILL STAGGER ANIMATION (about page)
+  ══════════════════════════════════════════════════════════ */
+  const $pillWrap = $('.credential-pills');
+  if ($pillWrap.length) {
+    const pillObs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          $(e.target).find('.pill').each(function(i) {
+            const $p = $(this);
+            $p.css({ opacity: 0, transform: 'translateY(10px)' });
+            setTimeout(() => {
+              $p.css({ transition: 'opacity 0.4s ease, transform 0.4s ease', opacity: 1, transform: 'translateY(0)' });
+            }, i * 80);
+          });
+          pillObs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.3 });
+    pillObs.observe($pillWrap[0]);
+  }
+
 });
 
 /* ══════════════════════════════════════════════════════════
-   TYPEWRITER for elements with .typewriter class
-   Usage: <span class="typewriter" data-words="word1,word2,word3"></span>
+   TYPEWRITER
 ══════════════════════════════════════════════════════════ */
 document.addEventListener('DOMContentLoaded', function () {
   document.querySelectorAll('.typewriter').forEach(el => {
