@@ -9,9 +9,6 @@
 </head>
 <body>
 
-  <!-- ══════════════════════════════════════════
-       NAVBAR
-  ══════════════════════════════════════════ -->
   <nav class="navbar" role="navigation" aria-label="Main navigation">
     <div class="container">
       <a href="index.html" class="nav-logo" aria-label="Symphony & Harmony Physical Therapy Home">
@@ -24,7 +21,7 @@
       </button>
       <ul class="nav-links" role="list">
         <li><a href="index.html">Home</a></li>
-        <li><a href="about.html">About</a></li>
+        <li><a href="about.html" class="active">About</a></li>
         <li><a href="services.html">Services</a></li>
         <li><a href="health.html">Health Advice</a></li>
         <li><a href="contact.html">Contact</a></li>
@@ -33,9 +30,6 @@
     </div>
   </nav>
 
-  <!-- ══════════════════════════════════════════
-       MINI HERO STRIP
-  ══════════════════════════════════════════ -->
   <section class="hero-strip" aria-label="Page header">
     <div class="container">
       <span class="section__eyebrow" style="color:var(--light-blue);">Meet Your Therapist</span>
@@ -44,18 +38,14 @@
     </div>
   </section>
 
-  <!-- ══════════════════════════════════════════
-       PHOTO + BIO
-  ══════════════════════════════════════════ -->
+  <!-- PHOTO + BIO -->
   <section class="section" aria-labelledby="bio-heading">
     <div class="container">
       <div class="about-bio">
-        <!-- Photo column -->
         <div class="about-photo-wrap fade-in">
           <div class="about-photo">
-            <img src="images/Professional Photo.png" alt="Dr. Svetlana Friedman" style="width:100%; height:100%; min-height:420px; object-fit:cover; border-radius:var(--radius);" />
+            <img src="images/Professional Photo.png" alt="Dr. Svetlana Friedman" style="width:100%;height:100%;min-height:420px;object-fit:cover;border-radius:var(--radius);" />
           </div>
-          <!-- Credential pills -->
           <div class="credential-pills">
             <span class="pill pill--accent">PT, DPT</span>
             <span class="pill">Barral Institute</span>
@@ -65,12 +55,11 @@
           </div>
         </div>
 
-        <!-- Bio card -->
         <div class="bio-card fade-in fade-in--delay-1">
           <span class="section__eyebrow">Biography</span>
           <h2 id="bio-heading" style="margin-bottom:1rem;">A Healer Who Listens to the Whole Body</h2>
           <p>Dr. Svetlana Friedman is a licensed Physical Therapist and Doctor of Physical Therapy with over 15 years of clinical experience. She holds advanced certifications from the Barral Institute in both Visceral Manipulation and Neural Manipulation — two of the most sophisticated manual therapy disciplines in the world.</p>
-          <p>Born with an innate curiosity about the human body, Dr. Friedman pursued her doctorate after witnessing how conventional treatments repeatedly failed patients with complex, chronic conditions. She trained directly under Barral Institute faculty and has since helped more than 2,400 patients find lasting relief from pain that had resisted every other form of treatment.</p>
+          <p>Born with an innate curiosity about the human body, Dr. Friedman earned her B.S. in Kinesiology from Boston University before going on to complete her Doctor of Physical Therapy at Columbia University — one of the most respected DPT programs in the country. She then trained directly under Barral Institute faculty and has since helped more than 2,400 patients find lasting relief from pain that had resisted every other form of treatment.</p>
           <p>Her practice, Symphony &amp; Harmony Physical Therapy, is built on a simple but profound principle: the body is a symphony of interconnected systems, and true healing comes only when all its parts move in harmony. She takes time with every patient — listening, palpating, and following the body's own signals — before designing a treatment plan that addresses the root cause rather than the symptom.</p>
           <p>Outside the clinic, Dr. Friedman lectures at regional physical therapy conferences, mentors new graduates in visceral techniques, and continues her own education through advanced Barral Institute courses.</p>
           <a href="contact.html" class="btn btn--primary" style="margin-top:1.5rem;">Schedule a Consultation</a>
@@ -79,9 +68,7 @@
     </div>
   </section>
 
-  <!-- ══════════════════════════════════════════
-       PULL QUOTE
-  ══════════════════════════════════════════ -->
+  <!-- PULL QUOTE -->
   <section class="section section--alt" aria-label="Dr. Friedman's philosophy quote">
     <div class="container">
       <div class="pull-quote fade-in">
@@ -91,9 +78,7 @@
     </div>
   </section>
 
-  <!-- ══════════════════════════════════════════
-       EDUCATION TIMELINE
-  ══════════════════════════════════════════ -->
+  <!-- EDUCATION TIMELINE -->
   <section class="section" aria-labelledby="education-heading">
     <div class="container">
       <div class="section__header fade-in">
@@ -107,18 +92,18 @@
         <div class="timeline-item">
           <div class="timeline-dot" aria-hidden="true"></div>
           <div class="timeline-item__content">
-            <div class="timeline-item__year">2005</div>
+            <div class="timeline-item__year">2003</div>
             <div class="timeline-item__degree">B.S. Kinesiology</div>
-            <div class="timeline-item__inst">Rutgers University</div>
+            <div class="timeline-item__inst">Boston University</div>
           </div>
         </div>
 
         <div class="timeline-item">
           <div class="timeline-dot" aria-hidden="true"></div>
           <div class="timeline-item__content">
-            <div class="timeline-item__year">2008</div>
+            <div class="timeline-item__year">2007</div>
             <div class="timeline-item__degree">Doctor of Physical Therapy (DPT)</div>
-            <div class="timeline-item__inst">Seton Hall University</div>
+            <div class="timeline-item__inst">Columbia University</div>
           </div>
         </div>
 
@@ -153,9 +138,7 @@
     </div>
   </section>
 
-  <!-- ══════════════════════════════════════════
-       PHILOSOPHY CARDS
-  ══════════════════════════════════════════ -->
+  <!-- PHILOSOPHY CARDS -->
   <section class="section section--alt" aria-labelledby="philosophy-heading">
     <div class="container">
       <div class="section__header fade-in">
@@ -192,9 +175,16 @@
     </div>
   </section>
 
-  <!-- ══════════════════════════════════════════
-       FOOTER
-  ══════════════════════════════════════════ -->
+  <!-- CTA -->
+  <section class="cta-strip" aria-label="Call to action">
+    <div class="container fade-in">
+      <span class="section__eyebrow" style="color:var(--light-blue);">Ready to Work with Dr. Friedman?</span>
+      <h2>Schedule Your First Consultation</h2>
+      <p>Take the first step toward lasting relief. Dr. Friedman's team will respond within one business day.</p>
+      <a href="contact.html" class="btn btn--outline btn--lg">Book a Free Consultation</a>
+    </div>
+  </section>
+
   <footer class="footer" role="contentinfo">
     <div class="container">
       <div class="footer__grid">

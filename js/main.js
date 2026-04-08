@@ -16,7 +16,7 @@ $(document).ready(function () {
   });
 
   /* ══════════════════════════════════════════════════════════
-     2. NAVBAR — scroll shrink + hamburger (FIXED)
+     2. NAVBAR — scroll shrink + hamburger
   ══════════════════════════════════════════════════════════ */
   const $navbar = $('.navbar');
   $(window).on('scroll.navbar', function () {
@@ -31,33 +31,29 @@ $(document).ready(function () {
     const isOpen = $navLinks.hasClass('open');
     $toggle.toggleClass('open');
     $navLinks.toggleClass('open');
-    $toggle.attr('aria-expanded', !isOpen);
-    // Prevent body scroll when menu open
+    $toggle.attr('aria-expanded', String(!isOpen));
     $('body').css('overflow', !isOpen ? 'hidden' : '');
   });
 
-  // Close nav when a link is clicked
   $navLinks.find('a').on('click', function () {
-    $toggle.removeClass('open').attr('aria-expanded', false);
+    $toggle.removeClass('open').attr('aria-expanded', 'false');
     $navLinks.removeClass('open');
     $('body').css('overflow', '');
   });
 
-  // Close nav when clicking outside
   $(document).on('click.navclose', function (e) {
     if ($navLinks.hasClass('open') &&
         !$toggle.is(e.target) && !$toggle.has(e.target).length &&
         !$navLinks.is(e.target) && !$navLinks.has(e.target).length) {
-      $toggle.removeClass('open').attr('aria-expanded', false);
+      $toggle.removeClass('open').attr('aria-expanded', 'false');
       $navLinks.removeClass('open');
       $('body').css('overflow', '');
     }
   });
 
-  // Close nav on Escape
   $(document).on('keydown.navclose', function (e) {
     if (e.key === 'Escape' && $navLinks.hasClass('open')) {
-      $toggle.removeClass('open').attr('aria-expanded', false);
+      $toggle.removeClass('open').attr('aria-expanded', 'false');
       $navLinks.removeClass('open');
       $('body').css('overflow', '');
     }
@@ -100,11 +96,9 @@ $(document).ready(function () {
   function animateCounter($el) {
     const target = parseInt($el.data('target'));
     const suffix = $el.data('suffix') || '';
-    const dur    = 1800;
-    const step   = 16;
-    const steps  = dur / step;
+    const dur    = 1800, step = 16;
     let current  = 0;
-    const inc    = target / steps;
+    const inc    = target / (dur / step);
     const timer  = setInterval(() => {
       current += inc;
       if (current >= target) { current = target; clearInterval(timer); }
@@ -161,18 +155,20 @@ $(document).ready(function () {
   }
 
   /* ══════════════════════════════════════════════════════════
-     8. TESTIMONIALS CAROUSEL + AUTO-PLAY
+     8. TESTIMONIALS — Auto-rotate, no arrows, click to expand
   ══════════════════════════════════════════════════════════ */
   const $track    = $('.testimonial-track');
-  const $prevBtn  = $('.carousel-btn--prev');
-  const $nextBtn  = $('.carousel-btn--next');
   const $dotsWrap = $('.carousel-dots');
 
-  if ($track.length && $prevBtn.length) {
+  // Remove arrow buttons entirely
+  $('.carousel-btn--prev, .carousel-btn--next').remove();
+
+  if ($track.length) {
     const $cards  = $track.find('.testimonial-card');
     const total   = $cards.length;
     let current   = 0;
     let autoTimer;
+    let isPaused  = false;
 
     const getVisible = () => $(window).width() <= 768 ? 1 : 3;
 
@@ -181,7 +177,7 @@ $(document).ready(function () {
       const pages = Math.ceil(total / getVisible());
       for (let i = 0; i < pages; i++) {
         $('<button>').addClass('carousel-dot' + (i === 0 ? ' active' : ''))
-          .attr('aria-label', `Go to slide ${i + 1}`)
+          .attr('aria-label', `Go to page ${i + 1}`)
           .on('click', () => { goTo(i * getVisible()); resetAuto(); })
           .appendTo($dotsWrap);
       }
@@ -202,25 +198,29 @@ $(document).ready(function () {
     };
 
     const startAuto = () => {
+      clearInterval(autoTimer);
+      if (isPaused) return;
       autoTimer = setInterval(() => {
         const vis  = getVisible();
         const next = current + vis >= total ? 0 : current + vis;
         goTo(next);
-      }, 5000);
+      }, 4000);
     };
     const resetAuto = () => { clearInterval(autoTimer); startAuto(); };
 
-    $prevBtn.on('click', () => { goTo(current - getVisible()); resetAuto(); });
-    $nextBtn.on('click', () => { goTo(current + getVisible()); resetAuto(); });
+    // Pause on hover
+    $track.on('mouseenter', () => { isPaused = true; clearInterval(autoTimer); })
+          .on('mouseleave', () => { isPaused = false; startAuto(); });
 
+    // Touch swipe support
     let touchStartX = 0;
-    $track.on('touchstart', e => { touchStartX = e.touches[0].clientX; });
+    $track.on('touchstart', e => { touchStartX = e.touches[0].clientX; isPaused = true; });
     $track.on('touchend', e => {
       const diff = touchStartX - e.changedTouches[0].clientX;
-      if (Math.abs(diff) > 50) { goTo(diff > 0 ? current + 1 : current - 1); resetAuto(); }
+      if (Math.abs(diff) > 50) { goTo(diff > 0 ? current + 1 : current - 1); }
+      isPaused = false; startAuto();
     });
 
-    $track.on('mouseenter', () => clearInterval(autoTimer)).on('mouseleave', startAuto);
     buildDots();
     startAuto();
     $(window).on('resize', () => { buildDots(); goTo(0); });
@@ -229,67 +229,53 @@ $(document).ready(function () {
   /* ══════════════════════════════════════════════════════════
      9. ACCORDION — Enhanced with icons
   ══════════════════════════════════════════════════════════ */
+  const accordionIcons = [
+    `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M8 12h8M12 8v8"/></svg>`,
+    `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>`,
+    `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>`,
+    `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2l18 9-18 9V2z"/></svg>`,
+  ];
 
-  // Map topics to icons
-  const accordionIcons = {
-    0: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>`,
-    1: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/></svg>`,
-    2: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>`,
-    3: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/><path d="M12 8v8"/></svg>`,
-  };
-
-  // Enhance accordion triggers with icon wrappers if on health page
   $('.accordion-trigger').each(function (idx) {
     const $trigger = $(this);
-    const text     = $trigger.contents().not('.accordion-icon').text().trim();
-    const $icon    = $trigger.find('.accordion-icon');
-    const icon     = accordionIcons[idx] || accordionIcons[0];
+    // Extract the text label only
+    const text = $trigger.contents().filter(function() {
+      return this.nodeType === 3; // text nodes only
+    }).text().trim() || $trigger.text().replace(/[\n\r]+/g, ' ').trim().replace(/\s+/g, ' ');
 
-    // Rebuild trigger content
+    const icon = accordionIcons[idx % accordionIcons.length];
+
     $trigger.html(`
       <span class="accordion-trigger-left">
         <span class="accordion-trigger-icon">${icon}</span>
-        <span>${text}</span>
+        <span class="accordion-trigger-text">${text}</span>
       </span>
       <span class="accordion-icon" aria-hidden="true">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
       </span>
     `);
   });
 
-  // Accordion open/close logic
   $('.accordion-trigger').each(function (idx) {
     const $trigger = $(this);
     const $item    = $trigger.closest('.accordion-item');
     const $body    = $trigger.next('.accordion-body');
 
-    // Open first by default
     if (idx === 0) {
-      $trigger.addClass('open');
+      $trigger.addClass('open').attr('aria-expanded', 'true');
       $body.addClass('open');
       $item.addClass('is-open');
     }
 
     $trigger.on('click', function () {
       const isOpen = $trigger.hasClass('open');
-
-      // Close all
-      $('.accordion-trigger').removeClass('open');
+      $('.accordion-trigger').removeClass('open').attr('aria-expanded', 'false');
       $('.accordion-body').removeClass('open');
       $('.accordion-item').removeClass('is-open');
-
-      // Open clicked if it was closed
       if (!isOpen) {
-        $trigger.addClass('open');
+        $trigger.addClass('open').attr('aria-expanded', 'true');
         $body.addClass('open');
         $item.addClass('is-open');
-        // Smooth scroll into view
-        setTimeout(() => {
-          const offset = $item.offset().top - 120;
-          if ($(window).scrollTop() > $item.offset().top) {
-            $('html,body').animate({ scrollTop: offset }, 300);
-          }
-        }, 100);
       }
     });
   });
@@ -301,7 +287,7 @@ $(document).ready(function () {
     const $target = $($(this).attr('href'));
     if ($target.length) {
       e.preventDefault();
-      const navH = parseInt($(':root').css('--nav-h')) || 72;
+      const navH = $navbar.outerHeight() || 72;
       $('html, body').animate({ scrollTop: $target.offset().top - navH - 16 }, 600);
     }
   });
@@ -393,13 +379,13 @@ $(document).ready(function () {
   $(document).on('keydown', function (e) { if (e.key === 'Escape') { closeModal(); closeLightbox(); } });
 
   /* ══════════════════════════════════════════════════════════
-     12. TESTIMONIAL LIGHTBOX
+     12. TESTIMONIAL LIGHTBOX (click to expand)
   ══════════════════════════════════════════════════════════ */
   const $lightbox = $(`
     <div class="modal-overlay" id="test-lightbox" role="dialog" aria-modal="true" aria-label="Patient story" tabindex="-1">
       <div class="modal-box modal-box--sm">
         <button class="modal-close" aria-label="Close"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
-        <div id="tl-inner"></div>
+        <div id="tl-inner" style="padding:var(--space-lg);"></div>
       </div>
     </div>
   `).appendTo('body');
@@ -419,12 +405,12 @@ $(document).ready(function () {
     $('#tl-inner').html(`
       <div style="text-align:center;padding-bottom:var(--space-md);">
         <div class="tl-avatar">${initials}</div>
-        <div class="stars" style="font-size:1.1rem;margin:0.6rem 0 0.2rem;">${stars}</div>
-        <h4 style="margin-bottom:0.15rem;">${name}</h4>
+        <div class="stars" style="font-size:1.2rem;margin:0.6rem 0 0.25rem;">${stars}</div>
+        <h4 style="margin-bottom:0.15rem;font-size:1.1rem;">${name}</h4>
         <div style="font-size:0.82rem;color:var(--text-light);">${condition}</div>
       </div>
       <p class="tl-quote">${quote}</p>
-      <a href="contact.html" class="btn btn--primary" style="margin-top:var(--space-md);width:100%;justify-content:center;">Book Your Consultation</a>
+      <a href="contact.html" class="btn btn--primary" style="margin-top:var(--space-md);width:100%;justify-content:center;display:flex;">Book Your Consultation</a>
     `);
 
     $lightbox.addClass('open'); $('body').css('overflow', 'hidden');
@@ -438,18 +424,14 @@ $(document).ready(function () {
      13. TOOLTIPS
   ══════════════════════════════════════════════════════════ */
   const $tooltip = $('<div class="site-tooltip" role="tooltip" aria-hidden="true"></div>').appendTo('body');
-
   $(document).on('mouseenter', '[data-tooltip]', function () {
     $tooltip.text($(this).data('tooltip')).addClass('visible');
     const r = this.getBoundingClientRect();
-    $tooltip.css({
-      top:  r.top + window.scrollY - $tooltip.outerHeight() - 10,
-      left: Math.max(8, r.left + r.width/2 - $tooltip.outerWidth()/2)
-    });
+    $tooltip.css({ top: r.top + window.scrollY - $tooltip.outerHeight() - 10, left: Math.max(8, r.left + r.width/2 - $tooltip.outerWidth()/2) });
   }).on('mouseleave', '[data-tooltip]', function () { $tooltip.removeClass('visible'); });
 
   /* ══════════════════════════════════════════════════════════
-     14. RIPPLE on card clicks
+     14. RIPPLE on cards
   ══════════════════════════════════════════════════════════ */
   $(document).on('click', '.why-card, .benefit-card, .philosophy-card', function (e) {
     const $c  = $(this);
@@ -459,10 +441,9 @@ $(document).ready(function () {
   });
 
   /* ══════════════════════════════════════════════════════════
-     15. QUICK-NAV (services page) — FIXED
+     15. QUICK-NAV (services page)
   ══════════════════════════════════════════════════════════ */
   if (currentPage === 'services.html') {
-    // Insert quick-nav right after hero-strip, with no gaps
     const $heroStrip = $('.hero-strip');
     const $qn = $(`
       <nav class="quick-nav" aria-label="Jump to section">
@@ -472,15 +453,13 @@ $(document).ready(function () {
       </nav>
     `).insertAfter($heroStrip);
 
-    // Update quick-nav top dynamically with navbar height
     function updateQuickNavTop() {
-      const navH = $navbar.outerHeight() || 72;
-      $qn.css('top', navH + 'px');
+      $qn.css('top', ($navbar.outerHeight() || 72) + 'px');
     }
     updateQuickNavTop();
     $(window).on('scroll.qn resize.qn', updateQuickNavTop);
 
-    const sections = ['visceral-manipulation','neural-manipulation','who-can-benefit'];
+    const sections = ['visceral-manipulation', 'neural-manipulation', 'who-can-benefit'];
     $(window).on('scroll.qn', function () {
       const scrollY = $(this).scrollTop() + 200;
       sections.forEach(id => {
@@ -508,16 +487,9 @@ $(document).ready(function () {
   $backTop.on('click', function () { $('html, body').animate({ scrollTop: 0 }, 500); });
 
   /* ══════════════════════════════════════════════════════════
-     17. MAGNETIC BUTTONS — REMOVED (caused cursor-following)
-     Replaced with simple scale effect on hover
-  ══════════════════════════════════════════════════════════ */
-  // No magnetic effect — buttons stay in place
-
-  /* ══════════════════════════════════════════════════════════
-     18. PAGE TRANSITION
+     17. PAGE TRANSITION
   ══════════════════════════════════════════════════════════ */
   $('body').addClass('page-loaded');
-
   $(document).on('click', 'a[href]', function (e) {
     const href = $(this).attr('href');
     if (!href || href.startsWith('#') || href.startsWith('tel:') ||
@@ -529,7 +501,7 @@ $(document).ready(function () {
   });
 
   /* ══════════════════════════════════════════════════════════
-     19. HEALTH PAGE — mobile expand steps
+     18. HEALTH PAGE — mobile expand steps
   ══════════════════════════════════════════════════════════ */
   if (currentPage === 'health.html' && window.innerWidth <= 768) {
     $('.ex-card__body').each(function () {
@@ -539,13 +511,13 @@ $(document).ready(function () {
       $tog.on('click', function () {
         const open = $steps.is(':visible');
         $steps.slideToggle(280);
-        $tog.html((open ? 'View' : 'Hide') + ` Steps <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="${open ? '6 9 12 15 18 9' : '18 15 12 9 6 15'}"/></svg>`);
+        $tog.html((open ? 'View' : 'Hide') + ` Steps`);
       });
     });
   }
 
   /* ══════════════════════════════════════════════════════════
-     20. FULLSCREEN HERO — hide scroll arrow after user scrolls
+     19. SCROLL ARROW — hide after scrolling
   ══════════════════════════════════════════════════════════ */
   const $scrollCta = $('.hero-scroll-cta');
   if ($scrollCta.length) {
@@ -555,21 +527,17 @@ $(document).ready(function () {
   }
 
   /* ══════════════════════════════════════════════════════════
-     21. EXERCISE CARD STEP COUNTER ANIMATION
+     20. EXERCISE STEP STAGGER
   ══════════════════════════════════════════════════════════ */
   document.querySelectorAll('.ex-card').forEach(card => {
     const obs = new IntersectionObserver(entries => {
       entries.forEach(e => {
         if (e.isIntersecting) {
-          const steps = e.target.querySelectorAll('.ex-step');
-          steps.forEach((step, i) => {
+          e.target.querySelectorAll('.ex-step').forEach((step, i) => {
             step.style.opacity = '0';
             step.style.transform = 'translateX(-12px)';
-            step.style.transition = `opacity 0.4s ease ${i * 0.1}s, transform 0.4s ease ${i * 0.1}s`;
-            setTimeout(() => {
-              step.style.opacity = '1';
-              step.style.transform = 'translateX(0)';
-            }, 50 + i * 100);
+            step.style.transition = `opacity 0.4s ease ${i*0.1}s, transform 0.4s ease ${i*0.1}s`;
+            setTimeout(() => { step.style.opacity='1'; step.style.transform='translateX(0)'; }, 50 + i*100);
           });
           obs.unobserve(e.target);
         }
@@ -579,7 +547,7 @@ $(document).ready(function () {
   });
 
   /* ══════════════════════════════════════════════════════════
-     22. PILL STAGGER ANIMATION (about page)
+     21. PILL STAGGER (about page)
   ══════════════════════════════════════════════════════════ */
   const $pillWrap = $('.credential-pills');
   if ($pillWrap.length) {
@@ -587,11 +555,8 @@ $(document).ready(function () {
       entries.forEach(e => {
         if (e.isIntersecting) {
           $(e.target).find('.pill').each(function(i) {
-            const $p = $(this);
-            $p.css({ opacity: 0, transform: 'translateY(10px)' });
-            setTimeout(() => {
-              $p.css({ transition: 'opacity 0.4s ease, transform 0.4s ease', opacity: 1, transform: 'translateY(0)' });
-            }, i * 80);
+            const $p = $(this).css({ opacity: 0, transform: 'translateY(10px)' });
+            setTimeout(() => $p.css({ transition: 'opacity 0.4s ease, transform 0.4s ease', opacity: 1, transform: 'translateY(0)' }), i * 80);
           });
           pillObs.unobserve(e.target);
         }
@@ -610,21 +575,12 @@ document.addEventListener('DOMContentLoaded', function () {
     const words = (el.dataset.words || '').split(',').map(w => w.trim()).filter(Boolean);
     if (!words.length) return;
     let wIdx = 0, cIdx = 0, deleting = false, pausing = false;
-
     function loop() {
       if (pausing) return;
-      const word    = words[wIdx];
-      const display = deleting ? word.substring(0, cIdx - 1) : word.substring(0, cIdx + 1);
-      el.textContent = display;
-
-      if (!deleting && cIdx === word.length) {
-        pausing = true;
-        return setTimeout(() => { pausing = false; deleting = true; loop(); }, 2000);
-      }
-      if (deleting && cIdx === 0) {
-        deleting = false;
-        wIdx = (wIdx + 1) % words.length;
-      }
+      const word = words[wIdx];
+      el.textContent = deleting ? word.substring(0, cIdx - 1) : word.substring(0, cIdx + 1);
+      if (!deleting && cIdx === word.length) { pausing = true; return setTimeout(() => { pausing=false; deleting=true; loop(); }, 2000); }
+      if (deleting && cIdx === 0) { deleting = false; wIdx = (wIdx + 1) % words.length; }
       cIdx = deleting ? Math.max(0, cIdx - 1) : Math.min(word.length, cIdx + 1);
       setTimeout(loop, deleting ? 50 : 95);
     }
