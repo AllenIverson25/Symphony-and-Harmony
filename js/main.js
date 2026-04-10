@@ -166,34 +166,81 @@ $(document).ready(function () {
   if ($track.length) {
     const $cards  = $track.find('.testimonial-card');
     const total   = $cards.length;
-    let current   = 0;
+    let currentPage = 0;
     let autoTimer;
     let isPaused  = false;
 
-    const getVisible = () => $(window).width() <= 768 ? 1 : 3;
+    const getVisible = () => $(window).width() <= 900 ? 1 : 3;
+    const getPageCount = () => Math.ceil(total / getVisible());
+
+    // Get the pixel offset for a given page — uses actual DOM positions
+    // so it's immune to gap/padding calculation bugs
+    const getPageOffset = (page) => {
+      const vis     = getVisible();
+      const cardIdx = page * vis;
+      if (cardIdx >= total) return getPageOffset(getPageCount() - 1);
+      const trackLeft  = $track[0].getBoundingClientRect().left;
+      const cardLeft   = $cards.eq(cardIdx)[0].getBoundingClientRect().left;
+      // current transform offset + delta
+      const currentTranslate = getCurrentTranslate();
+      return currentTranslate + (cardLeft - trackLeft);
+    };
+
+    const getCurrentTranslate = () => {
+      const style = window.getComputedStyle($track[0]);
+      const matrix = new DOMMatrix(style.transform);
+      return Math.abs(matrix.m41); // absolute value of translateX
+    };
 
     const buildDots = () => {
       $dotsWrap.empty();
-      const pages = Math.ceil(total / getVisible());
+      const pages = getPageCount();
       for (let i = 0; i < pages; i++) {
         $('<button>').addClass('carousel-dot' + (i === 0 ? ' active' : ''))
           .attr('aria-label', `Go to page ${i + 1}`)
-          .on('click', () => { goTo(i * getVisible()); resetAuto(); })
+          .on('click', () => { goToPage(i); resetAuto(); })
           .appendTo($dotsWrap);
       }
     };
 
     const updateDots = () => {
-      const page = Math.floor(current / getVisible());
-      $dotsWrap.find('.carousel-dot').each(function (i) { $(this).toggleClass('active', i === page); });
+      $dotsWrap.find('.carousel-dot').each(function (i) {
+        $(this).toggleClass('active', i === currentPage);
+      });
     };
 
-    const goTo = (idx) => {
-      const visible = getVisible();
-      const maxIdx  = Math.max(0, total - visible);
-      current       = Math.min(Math.max(idx, 0), maxIdx);
-      const cardW   = $cards.eq(0).outerWidth(true);
-      $track.css('transform', `translateX(-${current * cardW}px)`);
+    const goToPage = (page) => {
+      const pages = getPageCount();
+      currentPage = Math.max(0, Math.min(page, pages - 1));
+
+      const vis      = getVisible();
+      const cardIdx  = currentPage * vis;
+      // For the last page, align so the LAST card is flush right — no partial cards
+      const lastPage = pages - 1;
+      let translateX;
+
+      if (currentPage === lastPage && total % vis !== 0) {
+        // Snap so last 'vis' cards are shown without partial
+        const startIdx   = total - vis;
+        const trackLeft  = $track[0].getBoundingClientRect().left;
+        // Reset transform to 0 first to get clean measurements
+        $track.css('transition', 'none').css('transform', 'translateX(0)');
+        // Force reflow
+        $track[0].offsetHeight;
+        $track.css('transition', '');
+        const cardLeft   = $cards.eq(startIdx)[0].getBoundingClientRect().left;
+        translateX       = cardLeft - $track[0].getBoundingClientRect().left;
+      } else {
+        // Reset transform temporarily to measure from origin
+        $track.css('transition', 'none').css('transform', 'translateX(0)');
+        $track[0].offsetHeight;
+        $track.css('transition', '');
+        const trackLeft = $track[0].getBoundingClientRect().left;
+        const cardLeft  = $cards.eq(cardIdx)[0].getBoundingClientRect().left;
+        translateX      = cardLeft - trackLeft;
+      }
+
+      $track.css('transform', `translateX(-${translateX}px)`);
       updateDots();
     };
 
@@ -201,10 +248,9 @@ $(document).ready(function () {
       clearInterval(autoTimer);
       if (isPaused) return;
       autoTimer = setInterval(() => {
-        const vis  = getVisible();
-        const next = current + vis >= total ? 0 : current + vis;
-        goTo(next);
-      }, 4000);
+        const nextPage = currentPage + 1 >= getPageCount() ? 0 : currentPage + 1;
+        goToPage(nextPage);
+      }, 4500);
     };
     const resetAuto = () => { clearInterval(autoTimer); startAuto(); };
 
@@ -212,18 +258,26 @@ $(document).ready(function () {
     $track.on('mouseenter', () => { isPaused = true; clearInterval(autoTimer); })
           .on('mouseleave', () => { isPaused = false; startAuto(); });
 
-    // Touch swipe support
+    // Touch swipe
     let touchStartX = 0;
     $track.on('touchstart', e => { touchStartX = e.touches[0].clientX; isPaused = true; });
     $track.on('touchend', e => {
       const diff = touchStartX - e.changedTouches[0].clientX;
-      if (Math.abs(diff) > 50) { goTo(diff > 0 ? current + 1 : current - 1); }
+      if (Math.abs(diff) > 50) {
+        goToPage(diff > 0 ? currentPage + 1 : currentPage - 1);
+      }
       isPaused = false; startAuto();
     });
 
     buildDots();
-    startAuto();
-    $(window).on('resize', () => { buildDots(); goTo(0); });
+    // Small delay so layout is fully rendered before first measurement
+    setTimeout(() => { goToPage(0); startAuto(); }, 100);
+
+    let resizeTimer;
+    $(window).on('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => { buildDots(); goToPage(0); }, 150);
+    });
   }
 
   /* ══════════════════════════════════════════════════════════
