@@ -36,10 +36,7 @@
   <!-- ══════════════════════════════════════════
        MINI HERO STRIP (over image)
   ══════════════════════════════════════════ -->
-  <section class="hero-strip hero-strip--img" style="padding:var(--space-xl) 0;" aria-label="Page header">
-    <div class="hero-strip__bg">
-      <img src="images/Visceral Manipulation Treatment.jpg" alt="Visceral Manipulation" />
-    </div>
+  <section class="hero-strip" style="padding:var(--space-lg) 0;" aria-label="Page header">
     <div class="hero-strip__overlay" aria-hidden="true"></div>
     <div class="container">
       <span class="section__eyebrow" style="color:var(--light-blue);">What We Offer</span>
@@ -51,41 +48,52 @@
   <!-- ══════════════════════════════════════════
        VISCERAL MANIPULATION
   ══════════════════════════════════════════ -->
-  <section class="section" id="visceral-manipulation" aria-labelledby="vm-heading">
+  <section class="section" id="visceral-manipulation" aria-labelledby="vm-heading" style="padding:var(--space-lg) 0;">
     <div class="container">
-      <div class="service-block">
+      <div class="service-block" style="padding:var(--space-lg) 0;">
         <div class="service-block__header fade-in">
           <h2 id="vm-heading">Visceral Manipulation</h2>
           <span class="badge badge--signature">Signature Service</span>
         </div>
 
-        <div class="two-col fade-in">
-          <!-- Description left -->
-          <div>
-            <p>Visceral Manipulation (VM) is a gentle, hands-on therapy developed by French osteopath and physical therapist Jean-Pierre Barral. The technique works with the body's internal organs — the viscera — and their surrounding connective tissue to evaluate and treat the dynamic relationship between the organs and other structures of the body.</p>
-            <p style="margin-top:1rem;">Organs are not static. They move with every breath, heartbeat, and postural change. When an organ loses its normal mobility due to illness, injury, surgery, or emotional stress, it creates tension patterns that radiate through the body — often manifesting as pain far from the original restriction.</p>
-            <p style="margin-top:1rem;">Dr. Friedman uses exquisitely sensitive palpation to detect these restrictions and applies precise, gentle pressure to release them — restoring normal organ mobility and resolving the downstream pain patterns they create.</p>
+        <div class="two-col fade-in two-col--services" style="gap:var(--space-md);">
+          <!-- Text column -->
+          <div class="vm-text">
+            <div class="vm-summary">
+              <p>Visceral Manipulation is a gentle manual therapy that restores organ mobility to relieve chronic pain, post-surgical adhesions, and digestive dysfunction.</p>
+              <ul class="conditions-grid short">
+                <li>Chronic back &amp; hip pain</li>
+                <li>Digestive issues</li>
+                <li>Post-surgical adhesions</li>
+              </ul>
+            </div>
 
-            <h4 style="margin-top:1.5rem; margin-bottom:0.75rem;">Conditions Addressed</h4>
-            <ul class="conditions-grid">
-              <li>Chronic lower back &amp; hip pain</li>
-              <li>Digestive disorders (IBS, GERD, constipation)</li>
-              <li>Post-surgical adhesions &amp; scar tissue</li>
-              <li>Pelvic pain &amp; dysfunction</li>
-              <li>Shoulder &amp; neck pain</li>
-              <li>Urinary incontinence &amp; bladder issues</li>
-              <li>Acid reflux &amp; hiatal hernia</li>
-              <li>Endometriosis-related pain</li>
-              <li>Liver &amp; gallbladder dysfunction</li>
-              <li>Thoracic outlet syndrome</li>
-              <li>Unexplained chronic pain</li>
-              <li>Breathing restrictions</li>
-            </ul>
+            <div class="vm-full">
+              <p>Visceral Manipulation (VM) is a gentle, hands-on therapy developed by French osteopath and physical therapist Jean-Pierre Barral. The technique works with the body's internal organs — the viscera — and their surrounding connective tissue to evaluate and treat the dynamic relationship between the organs and other structures of the body.</p>
+              <p style="margin-top:1rem;">Organs are not static. They move with every breath, heartbeat, and postural change. When an organ loses its normal mobility due to illness, injury, surgery, or emotional stress, it creates tension patterns that radiate through the body — often manifesting as pain far from the original restriction.</p>
+              <p style="margin-top:1rem;">Dr. Friedman uses exquisitely sensitive palpation to detect these restrictions and applies precise, gentle pressure to release them — restoring normal organ mobility and resolving the downstream pain patterns they create.</p>
+
+              <h4 style="margin-top:1.5rem; margin-bottom:0.75rem;">Conditions Addressed</h4>
+              <ul class="conditions-grid">
+                <li>Chronic lower back &amp; hip pain</li>
+                <li>Digestive disorders (IBS, GERD, constipation)</li>
+                <li>Post-surgical adhesions &amp; scar tissue</li>
+                <li>Pelvic pain &amp; dysfunction</li>
+                <li>Shoulder &amp; neck pain</li>
+                <li>Urinary incontinence &amp; bladder issues</li>
+                <li>Acid reflux &amp; hiatal hernia</li>
+                <li>Endometriosis-related pain</li>
+                <li>Liver &amp; gallbladder dysfunction</li>
+                <li>Thoracic outlet syndrome</li>
+                <li>Unexplained chronic pain</li>
+                <li>Breathing restrictions</li>
+              </ul>
+            </div>
           </div>
 
           <!-- Image/video placeholder right -->
-          <div>
-            <img src="images/Visceral Manipulation Treatment.jpg" alt="Visceral Manipulation Treatment" style="width:100%; aspect-ratio:4/3; border-radius:var(--radius); object-fit:cover;" />
+          <div class="vm-image" style="margin:0;">
+            <img src="images/Visceral Manipulation Treatment.jpg" alt="Visceral Manipulation Treatment" />
           </div>
         </div>
       </div>
@@ -111,7 +119,12 @@
 
           <!-- Description right -->
           <div>
-            <p>Neural Manipulation (NM) is a complementary technique, also developed by Jean-Pierre Barral in collaboration with Alain Croibier, that assesses and treats the mechanical and neurological dysfunction of the nervous system. Nerves need to move freely within their surrounding tissue — when they don't, the result can be pain, numbness, weakness, and a wide range of neurological symptoms.</p>
+            <div class="nm-summary">
+              <p>Neural Manipulation helps restore nerve mobility to reduce pain, numbness, and improve function.</p>
+            </div>
+            <div class="nm-full">
+              <p>Neural Manipulation (NM) is a complementary technique, also developed by Jean-Pierre Barral in collaboration with Alain Croibier, that assesses and treats the mechanical and neurological dysfunction of the nervous system. Nerves need to move freely within their surrounding tissue — when they don't, the result can be pain, numbness, weakness, and a wide range of neurological symptoms.</p>
+            </div>
             <p style="margin-top:1rem;">Dr. Friedman applies gentle, specific pressure along nerve pathways to release fixations and restore normal neural mobility. The effects are often immediate and profound — patients frequently report relief from symptoms they have carried for years.</p>
             <p style="margin-top:1rem;">Neural Manipulation is particularly effective for conditions where conventional treatments have failed to provide lasting relief, as it addresses the nervous system component that is often overlooked.</p>
 
