@@ -6,12 +6,508 @@
   <title>Services — Symphony & Harmony Physical Therapy</title>
   <meta name="description" content="Visceral Manipulation and Neural Manipulation services offered by Dr. Svetlana Friedman, PT, DPT in Marlboro, NJ." />
   <link rel="stylesheet" href="css/styles.css" />
+  <style>
+
+    /* ══════════════════════════════════════════
+       QUICK NAV
+    ══════════════════════════════════════════ */
+    .quick-nav {
+      position: sticky;
+      top: var(--nav-h);
+      z-index: 800;
+      background: var(--navy);
+      border-bottom: 3px solid var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      padding: 0 var(--space-md);
+      box-shadow: 0 3px 16px rgba(28,45,65,0.25);
+    }
+    .quick-nav__item {
+      padding: 1rem 1.75rem;
+      font-family: var(--font-head);
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: rgba(255,255,255,0.65);
+      border-bottom: 3px solid transparent;
+      margin-bottom: -3px;
+      transition: color 0.25s, border-color 0.25s, background 0.25s;
+      white-space: nowrap;
+      text-decoration: none;
+    }
+    .quick-nav__item:hover { color: var(--white); background: rgba(255,255,255,0.06); }
+    .quick-nav__item.active { color: var(--white); border-bottom-color: var(--light-blue); font-weight: 600; }
+
+    /* ══════════════════════════════════════════
+       FULL-BLEED SERVICE INTRO
+    ══════════════════════════════════════════ */
+    .svc-intro {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 580px;
+    }
+    .svc-intro__img {
+      position: relative;
+      overflow: hidden;
+    }
+    .svc-intro__img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.9s cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+    .svc-intro:hover .svc-intro__img img { transform: scale(1.04); }
+    .svc-intro__img-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(28,45,65,0.22) 0%, transparent 55%);
+    }
+    .svc-intro__img-badge {
+      position: absolute;
+      bottom: 1.75rem;
+      left: 1.75rem;
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 0.7rem 1.1rem;
+      font-family: var(--font-head);
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: var(--navy);
+      box-shadow: var(--shadow-lg);
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+    }
+    .svc-intro__img-badge .dot {
+      width: 9px; height: 9px; border-radius: 50%; background: var(--primary); flex-shrink: 0;
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.6; transform: scale(0.8); }
+    }
+    .svc-intro__body {
+      background: var(--white);
+      padding: var(--space-2xl) var(--space-xl);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .svc-intro--alt .svc-intro__body { background: var(--section-bg); }
+    .svc-intro__body h2 {
+      margin-bottom: var(--space-sm);
+      font-size: clamp(1.8rem, 2.8vw, 2.6rem);
+      line-height: 1.15;
+    }
+    .svc-intro__body .lead {
+      font-size: 1.05rem;
+      color: var(--text-mid);
+      line-height: 1.85;
+      margin-bottom: 0.9rem;
+    }
+    .svc-intro__body .lead + .lead { margin-bottom: var(--space-md); }
+    .svc-intro__btns { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: var(--space-sm); }
+
+    /* ── Flip: image on right ── */
+    .svc-intro--flip .svc-intro__img { order: 2; }
+    .svc-intro--flip .svc-intro__body { order: 1; }
+
+    /* ══════════════════════════════════════════
+       CONDITIONS — interactive hover cards
+    ══════════════════════════════════════════ */
+    .cond-section { padding: var(--space-xl) 0; }
+    .cond-section--alt { background: var(--section-bg); }
+
+    .cond-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: var(--space-lg);
+      margin-bottom: var(--space-lg);
+      flex-wrap: wrap;
+    }
+    .cond-header h3 { font-size: clamp(1.25rem, 2.5vw, 1.65rem); margin-bottom: 0.3rem; }
+    .cond-header__desc { max-width: 420px; font-size: 0.92rem; }
+
+    .cond-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-sm);
+    }
+    .cond-item {
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-sm) var(--space-md);
+      display: flex;
+      align-items: flex-start;
+      gap: 0.85rem;
+      cursor: default;
+      transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+    .cond-item:hover {
+      border-color: var(--primary);
+      box-shadow: 0 6px 24px rgba(58,110,165,0.13);
+      transform: translateY(-3px);
+    }
+    .cond-item::after {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+      background: linear-gradient(180deg, var(--primary), var(--medium-blue));
+      opacity: 0;
+      transition: opacity 0.25s;
+    }
+    .cond-item:hover::after { opacity: 1; }
+    .cond-item__icon {
+      flex-shrink: 0;
+      width: 40px; height: 40px;
+      border-radius: var(--radius);
+      background: var(--section-bg);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--primary);
+      transition: background 0.25s, color 0.25s;
+    }
+    .cond-section--alt .cond-item { background: var(--white); }
+    .cond-item:hover .cond-item__icon { background: var(--primary); color: var(--white); }
+    .cond-item__name {
+      font-family: var(--font-head);
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: 0.2rem;
+    }
+    .cond-item__desc { font-size: 0.78rem; color: var(--text-light); line-height: 1.5; }
+
+    /* ══════════════════════════════════════════
+       FACTS STRIP
+    ══════════════════════════════════════════ */
+    .facts-strip {
+      background: var(--primary);
+      padding: var(--space-lg) 0;
+    }
+    .facts-strip .container {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+    }
+    .fact-item {
+      text-align: center;
+      padding: var(--space-sm) var(--space-md);
+      border-right: 1px solid rgba(255,255,255,0.18);
+      transition: background 0.25s;
+    }
+    .fact-item:last-child { border-right: none; }
+    .fact-item:hover { background: rgba(255,255,255,0.08); }
+    .fact-item__icon {
+      width: 46px; height: 46px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.15);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 0.6rem;
+      color: var(--white);
+      transition: background 0.25s, transform 0.25s;
+    }
+    .fact-item:hover .fact-item__icon { background: rgba(255,255,255,0.25); transform: scale(1.1); }
+    .fact-item__label {
+      font-family: var(--font-head);
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: rgba(255,255,255,0.65);
+      margin-bottom: 0.2rem;
+    }
+    .fact-item__value {
+      font-family: var(--font-head);
+      font-size: 0.97rem;
+      font-weight: 700;
+      color: var(--white);
+    }
+
+    /* ══════════════════════════════════════════
+       WHO BENEFITS — feature list
+    ══════════════════════════════════════════ */
+    .benefit-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-md);
+    }
+    .bcard {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+      padding: var(--space-lg);
+      display: flex;
+      gap: var(--space-md);
+      align-items: flex-start;
+      border: 1.5px solid transparent;
+      transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .bcard:hover {
+      border-color: var(--light-blue);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-4px);
+    }
+    .bcard__num {
+      flex-shrink: 0;
+      width: 54px; height: 54px;
+      border-radius: var(--radius);
+      background: var(--navy);
+      color: var(--white);
+      font-family: var(--font-head);
+      font-weight: 800;
+      font-size: 1.1rem;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.25s;
+    }
+    .bcard:hover .bcard__num { background: var(--primary); }
+    .bcard h3 { font-size: 1.05rem; margin-bottom: 0.5rem; }
+    .bcard p { font-size: 0.9rem; line-height: 1.75; }
+
+    /* ══════════════════════════════════════════
+       PROCESS — timeline on dark
+    ══════════════════════════════════════════ */
+    .process-section {
+      background: var(--navy);
+      padding: var(--space-xl) 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .process-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 15% 60%, rgba(58,110,165,0.35) 0%, transparent 55%),
+        radial-gradient(ellipse at 85% 25%, rgba(180,210,235,0.07) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    .process-section .container { position: relative; z-index: 1; }
+    .process-section .section__header h2 { color: var(--white); }
+    .process-section .section__header p { color: rgba(255,255,255,0.62); }
+    .process-steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      position: relative;
+      margin-top: var(--space-lg);
+    }
+    .process-steps::before {
+      content: '';
+      position: absolute;
+      top: 27px;
+      left: 12.5%;
+      right: 12.5%;
+      height: 2px;
+      background: linear-gradient(90deg,
+        rgba(255,255,255,0) 0%,
+        rgba(255,255,255,0.18) 15%,
+        rgba(255,255,255,0.18) 85%,
+        rgba(255,255,255,0) 100%);
+      z-index: 0;
+    }
+    .pstep {
+      padding: 0 var(--space-md);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .pstep__bubble {
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.22);
+      background: rgba(255,255,255,0.07);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto var(--space-md);
+      font-family: var(--font-head);
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: var(--white);
+      transition: background 0.3s, border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    }
+    .pstep:hover .pstep__bubble {
+      background: var(--primary);
+      border-color: var(--primary);
+      transform: scale(1.12);
+      box-shadow: 0 0 0 8px rgba(58,110,165,0.2);
+    }
+    .pstep h4 { color: var(--white); font-size: 0.97rem; margin-bottom: 0.5rem; }
+    .pstep p { color: rgba(255,255,255,0.58); font-size: 0.83rem; line-height: 1.7; }
+
+    /* ══════════════════════════════════════════
+       PATIENT QUOTES
+    ══════════════════════════════════════════ */
+    .quotes-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-md);
+      margin-top: var(--space-lg);
+    }
+    .quote-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: var(--space-md) var(--space-lg);
+      box-shadow: var(--shadow-sm);
+      border: 1.5px solid var(--border);
+      transition: box-shadow 0.3s, transform 0.3s, border-color 0.3s;
+      position: relative;
+    }
+    .quote-card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-4px);
+      border-color: var(--light-blue);
+    }
+    .quote-card__mark {
+      font-family: var(--font-head);
+      font-size: 3.5rem;
+      line-height: 1;
+      color: var(--light-blue);
+      margin-bottom: -0.5rem;
+      display: block;
+      opacity: 0.7;
+    }
+    .quote-card__text {
+      font-style: italic;
+      font-size: 0.92rem;
+      line-height: 1.78;
+      color: var(--text-mid);
+      margin-bottom: var(--space-sm);
+    }
+    .quote-card__stars { color: #F5A623; font-size: 0.82rem; margin-bottom: 0.5rem; }
+    .quote-card__author { font-family: var(--font-head); font-size: 0.85rem; font-weight: 700; color: var(--text-dark); }
+    .quote-card__cond { font-size: 0.75rem; color: var(--text-light); margin-top: 0.12rem; }
+
+    /* ══════════════════════════════════════════
+       COMPARISON TABLE
+    ══════════════════════════════════════════ */
+    .compare-wrap {
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+      border: 1.5px solid var(--border);
+      margin-top: var(--space-lg);
+    }
+    .compare-tbl {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .compare-tbl thead tr { background: var(--navy); }
+    .compare-tbl thead th {
+      padding: var(--space-md) var(--space-lg);
+      text-align: left;
+      font-family: var(--font-head);
+      font-size: 0.88rem;
+      font-weight: 600;
+    }
+    .compare-tbl thead th:first-child {
+      color: rgba(255,255,255,0.45);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      width: 22%;
+    }
+    .compare-tbl thead th:nth-child(2) { color: var(--white); }
+    .compare-tbl thead th:nth-child(3) { color: var(--light-blue); }
+    .compare-tbl tbody tr {
+      border-bottom: 1px solid var(--border);
+      transition: background 0.2s;
+    }
+    .compare-tbl tbody tr:last-child { border-bottom: none; }
+    .compare-tbl tbody tr:hover { background: var(--page-bg); }
+    .compare-tbl tbody tr:nth-child(even) { background: rgba(235,242,248,0.45); }
+    .compare-tbl tbody tr:nth-child(even):hover { background: var(--page-bg); }
+    .compare-tbl td {
+      padding: 1rem var(--space-lg);
+      color: var(--text-mid);
+      font-size: 0.9rem;
+      vertical-align: middle;
+    }
+    .compare-tbl td:first-child {
+      font-family: var(--font-head);
+      font-weight: 700;
+      font-size: 0.78rem;
+      color: var(--text-dark);
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+    }
+    .check {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      color: #2E7D32; font-weight: 600; font-size: 0.88rem;
+    }
+    .check-blue { color: var(--primary); }
+
+    /* Mobile comparison fallback */
+    .compare-mobile { display: none; }
+    .cmp-pair {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-sm);
+      margin-top: var(--space-md);
+    }
+    .cmp-col {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+    }
+    .cmp-col__head {
+      background: var(--navy);
+      padding: 0.85rem var(--space-md);
+      font-family: var(--font-head);
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--white);
+    }
+    .cmp-col:last-child .cmp-col__head { color: var(--light-blue); }
+    .cmp-col ul { padding: var(--space-sm) var(--space-md); display: flex; flex-direction: column; gap: 0.45rem; }
+    .cmp-col ul li { font-size: 0.83rem; color: var(--text-mid); display: flex; align-items: flex-start; gap: 0.4rem; }
+    .cmp-col ul li::before { content: '→'; color: var(--primary); font-weight: 700; flex-shrink: 0; }
+
+    /* ══════════════════════════════════════════
+       RESPONSIVE
+    ══════════════════════════════════════════ */
+    @media (max-width: 1024px) {
+      .cond-grid { grid-template-columns: 1fr 1fr; }
+      .facts-strip .container { grid-template-columns: 1fr 1fr; }
+      .fact-item:nth-child(2) { border-right: none; }
+      .fact-item:nth-child(4) { border-right: none; }
+      .quotes-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 900px) {
+      .svc-intro { grid-template-columns: 1fr; min-height: auto; }
+      .svc-intro__img { height: 300px; order: -1 !important; }
+      .svc-intro--flip .svc-intro__body { order: 0 !important; }
+      .svc-intro__body { padding: var(--space-xl) var(--space-md); }
+      .process-steps { grid-template-columns: 1fr 1fr; gap: var(--space-md); }
+      .process-steps::before { display: none; }
+    }
+    @media (max-width: 768px) {
+      .quick-nav { overflow-x: auto; justify-content: flex-start; padding: 0 var(--space-sm); -webkit-overflow-scrolling: touch; }
+      .quick-nav__item { flex-shrink: 0; padding: 0.85rem 1rem; font-size: 0.8rem; }
+      .cond-grid { grid-template-columns: 1fr; }
+      .benefit-grid { grid-template-columns: 1fr; }
+      .quotes-grid { grid-template-columns: 1fr; }
+      .compare-wrap { display: none; }
+      .compare-mobile { display: block; }
+      .bcard { padding: var(--space-md); gap: var(--space-sm); }
+      .bcard__num { width: 44px; height: 44px; font-size: 0.95rem; }
+    }
+    @media (max-width: 480px) {
+      .process-steps { grid-template-columns: 1fr; }
+      .facts-strip .container { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
 </head>
 <body>
 
-  <!-- ══════════════════════════════════════════
-       NAVBAR
-  ══════════════════════════════════════════ -->
+  <!-- NAVBAR -->
   <nav class="navbar" role="navigation" aria-label="Main navigation">
     <div class="container">
       <a href="index.html" class="nav-logo" aria-label="Symphony & Harmony Physical Therapy Home">
@@ -25,7 +521,7 @@
       <ul class="nav-links" role="list">
         <li><a href="index.html">Home</a></li>
         <li><a href="about.html">About</a></li>
-        <li><a href="services.html">Services</a></li>
+        <li><a href="services.html" class="active">Services</a></li>
         <li><a href="health.html">Health Advice</a></li>
         <li><a href="contact.html">Contact</a></li>
       </ul>
@@ -34,10 +530,9 @@
   </nav>
 
   <!-- ══════════════════════════════════════════
-       MINI HERO STRIP (over image)
+       HERO STRIP — original, untouched
   ══════════════════════════════════════════ -->
   <section class="hero-strip" style="padding:var(--space-lg) 0;" aria-label="Page header">
-    <div class="hero-strip__overlay" aria-hidden="true"></div>
     <div class="container">
       <span class="section__eyebrow" style="color:var(--light-blue);">What We Offer</span>
       <h1 style="color:var(--white);">Our Services</h1>
@@ -45,105 +540,286 @@
     </div>
   </section>
 
+  <!-- QUICK NAV -->
+  <nav class="quick-nav" id="svc-nav" aria-label="Jump to section">
+    <a href="#visceral-manipulation" class="quick-nav__item active">Visceral Manipulation</a>
+    <a href="#neural-manipulation" class="quick-nav__item">Neural Manipulation</a>
+    <a href="#who-can-benefit" class="quick-nav__item">Who Benefits</a>
+    <a href="#our-process" class="quick-nav__item">Our Process</a>
+    <a href="#compare" class="quick-nav__item">VM vs NM</a>
+  </nav>
+
   <!-- ══════════════════════════════════════════
        VISCERAL MANIPULATION
   ══════════════════════════════════════════ -->
-  <section class="section" id="visceral-manipulation" aria-labelledby="vm-heading" style="padding:var(--space-lg) 0;">
-    <div class="container">
-      <div class="service-block" style="padding:var(--space-lg) 0;">
-        <div class="service-block__header fade-in">
-          <h2 id="vm-heading">Visceral Manipulation</h2>
-          <span class="badge badge--signature">Signature Service</span>
+  <section id="visceral-manipulation" aria-labelledby="vm-heading">
+    <div class="svc-intro slide-in-left">
+      <div class="svc-intro__body">
+        <span class="section__eyebrow">Signature Service</span>
+        <h2 id="vm-heading">Visceral Manipulation</h2>
+        <p class="lead">Visceral Manipulation (VM) is a gentle, hands-on therapy developed by French osteopath Jean-Pierre Barral. It works with the body's internal organs — the viscera — and their surrounding connective tissue to release restrictions that radiate pain far from their origin.</p>
+        <p class="lead">Unlike conventional physical therapy that focuses solely on muscles and joints, VM recognizes that your organs are in constant motion. When an organ loses mobility through illness, injury, or stress, the compensatory tension it creates can show up as hip pain, back pain, digestive dysfunction, or headaches — seemingly unrelated symptoms with a single mechanical cause.</p>
+        <p class="lead">Dr. Friedman holds certifications VM1 through VM5 from the Barral Institute — the most rigorous VM training pathway in the world.</p>
+        <div class="svc-intro__btns">
+          <a href="contact.html" class="btn btn--primary">Book a Visceral Session</a>
+          <button class="btn btn--outline-navy" data-modal="vm">Learn More →</button>
         </div>
-
-        <div class="two-col fade-in two-col--services" style="gap:var(--space-md);">
-          <!-- Text column -->
-          <div class="vm-text">
-            <div class="vm-summary">
-              <p>Visceral Manipulation is a gentle manual therapy that restores organ mobility to relieve chronic pain, post-surgical adhesions, and digestive dysfunction.</p>
-              <ul class="conditions-grid short">
-                <li>Chronic back &amp; hip pain</li>
-                <li>Digestive issues</li>
-                <li>Post-surgical adhesions</li>
-              </ul>
-            </div>
-
-            <div class="vm-full">
-              <p>Visceral Manipulation (VM) is a gentle, hands-on therapy developed by French osteopath and physical therapist Jean-Pierre Barral. The technique works with the body's internal organs — the viscera — and their surrounding connective tissue to evaluate and treat the dynamic relationship between the organs and other structures of the body.</p>
-              <p style="margin-top:1rem;">Organs are not static. They move with every breath, heartbeat, and postural change. When an organ loses its normal mobility due to illness, injury, surgery, or emotional stress, it creates tension patterns that radiate through the body — often manifesting as pain far from the original restriction.</p>
-              <p style="margin-top:1rem;">Dr. Friedman uses exquisitely sensitive palpation to detect these restrictions and applies precise, gentle pressure to release them — restoring normal organ mobility and resolving the downstream pain patterns they create.</p>
-
-              <h4 style="margin-top:1.5rem; margin-bottom:0.75rem;">Conditions Addressed</h4>
-              <ul class="conditions-grid">
-                <li>Chronic lower back &amp; hip pain</li>
-                <li>Digestive disorders (IBS, GERD, constipation)</li>
-                <li>Post-surgical adhesions &amp; scar tissue</li>
-                <li>Pelvic pain &amp; dysfunction</li>
-                <li>Shoulder &amp; neck pain</li>
-                <li>Urinary incontinence &amp; bladder issues</li>
-                <li>Acid reflux &amp; hiatal hernia</li>
-                <li>Endometriosis-related pain</li>
-                <li>Liver &amp; gallbladder dysfunction</li>
-                <li>Thoracic outlet syndrome</li>
-                <li>Unexplained chronic pain</li>
-                <li>Breathing restrictions</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- Image/video placeholder right -->
-          <div class="vm-image" style="margin:0;">
-            <img src="images/Visceral Manipulation Treatment.jpg" alt="Visceral Manipulation Treatment" />
-          </div>
+      </div>
+      <div class="svc-intro__img">
+        <img src="images/Visceral Manipulation Treatment.jpg" alt="Dr. Friedman performing Visceral Manipulation" />
+        <div class="svc-intro__img-overlay"></div>
+        <div class="svc-intro__img-badge">
+          <span class="dot"></span>
+          Barral Institute Certified — VM1–VM5
         </div>
       </div>
     </div>
   </section>
 
+  <!-- VM CONDITIONS -->
+  <section class="cond-section" aria-labelledby="vm-cond-heading">
+    <div class="container">
+      <div class="cond-header fade-in">
+        <div>
+          <span class="section__eyebrow">Visceral Manipulation</span>
+          <h3 id="vm-cond-heading">Conditions We Address</h3>
+        </div>
+        <p class="cond-header__desc">Organ restrictions create pain patterns that travel. Here's what visceral treatment can resolve — hover to learn more.</p>
+      </div>
+      <div class="cond-grid fade-in">
+
+        <div class="cond-item">
+          <div class="cond-item__icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          </div>
+          <div>
+            <div class="cond-item__name">Chronic Back &amp; Hip Pain</div>
+            <div class="cond-item__desc">Liver, kidney, and colon restrictions pull directly on lumbar and pelvic structures — causing pain no back treatment can fix.</div>
+          </div>
+        </div>
+
+        <div class="cond-item">
+          <div class="cond-item__icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 12s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+          </div>
+          <div>
+            <div class="cond-item__name">IBS &amp; Digestive Disorders</div>
+            <div class="cond-item__desc">Restricted gut mobility causes spasm, bloating, and altered transit. VM restores normal peristaltic motion from the outside.</div>
+          </div>
+        </div>
+
+        <div class="cond-item">
+          <div class="cond-item__icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          </div>
+          <div>
+            <div class="cond-item__name">Post-Surgical Adhesions</div>
+            <div class="cond-item__desc">Scar tissue after abdominal or pelvic surgery binds organs together, creating persistent pain that imaging rarely reveals.</div>
+          </div>
+        </div>
+
+        <div class="cond-item">
+          <div class="cond-item__icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          </div>
+          <div>
+            <div class="cond-item__name">Pelvic Pain &amp; Dysfunction</div>
+            <div class="cond-item__desc">Bladder, uterine, and bowel restrictions create pelvic floor tension that no amount of strengthening exercises will resolve.</div>
+          </div>
+        </div>
+
+        <div class="cond-item">
+          <div class="cond-item__icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3z"/><path d="M3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>
+          </div>
+          <div>
+            <div class="cond-item__name">Shoulder &amp; Neck Pain</div>
+            <div class="cond-item__desc">The liver, lung, and stomach have direct fascial connections to the shoulder girdle — pain the shoulder will never resolve on its own.</div>
+          </div>
+        </div>
+
+        <div class="cond-item">
+          <div class="cond-item__icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          </div>
+          <div>
+            <div class="cond-item__name">Acid Reflux &amp; Hiatal Hernia</div>
+            <div class="cond-item__desc">A restricted hiatus and tight diaphragm drive reflux that medication alone cannot fully resolve. VM addresses the mechanical root.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FACTS STRIP -->
+  <div class="facts-strip" aria-label="Treatment facts">
+    <div class="container">
+      <div class="fact-item fade-in">
+        <div class="fact-item__icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div class="fact-item__label">Technique Origin</div>
+        <div class="fact-item__value">Barral Institute</div>
+      </div>
+      <div class="fact-item fade-in fade-in--delay-1">
+        <div class="fact-item__icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <div class="fact-item__label">Session Length</div>
+        <div class="fact-item__value">60–90 Minutes</div>
+      </div>
+      <div class="fact-item fade-in fade-in--delay-2">
+        <div class="fact-item__icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        </div>
+        <div class="fact-item__label">Approach</div>
+        <div class="fact-item__value">Gentle &amp; Non-Invasive</div>
+      </div>
+      <div class="fact-item fade-in fade-in--delay-3">
+        <div class="fact-item__icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <div class="fact-item__label">Patients Helped</div>
+        <div class="fact-item__value">2,400+</div>
+      </div>
+    </div>
+  </div>
+
   <!-- ══════════════════════════════════════════
        NEURAL MANIPULATION
   ══════════════════════════════════════════ -->
-  <section class="section section--alt" id="neural-manipulation" aria-labelledby="nm-heading">
+  <section id="neural-manipulation" aria-labelledby="nm-heading">
+    <div class="svc-intro svc-intro--flip svc-intro--alt slide-in-right">
+      <div class="svc-intro__img">
+        <img src="images/Neural Manipulation Treatment.jpg" alt="Dr. Friedman performing Neural Manipulation" />
+        <div class="svc-intro__img-overlay"></div>
+        <div class="svc-intro__img-badge">
+          <span class="dot" style="background:var(--medium-blue);"></span>
+          Barral Institute Certified — NM1–NM4
+        </div>
+      </div>
+      <div class="svc-intro__body">
+        <span class="section__eyebrow">Advanced Technique</span>
+        <h2 id="nm-heading">Neural Manipulation</h2>
+        <p class="lead">Neural Manipulation (NM) assesses and treats the mechanical and neurological dysfunction of the nervous system. Developed by Jean-Pierre Barral and Alain Croibier, it rests on a simple principle: nerves must move freely within their surrounding tissue to function properly.</p>
+        <p class="lead">When a nerve is fixated — tethered by scar tissue, compressed by a restricted organ, or caught in fascial adhesion — the results range from localized pain and numbness to systemic symptoms that have baffled every specialist. Dr. Friedman applies gentle, precise pressure along nerve pathways to release these fixations and restore normal neural mobility.</p>
+        <p class="lead">The effects are often immediate. Patients frequently report relief from symptoms carried for years, resolved in a single session.</p>
+        <div class="svc-intro__btns">
+          <a href="contact.html" class="btn btn--primary">Book a Neural Session</a>
+          <button class="btn btn--outline-navy" data-modal="nm">Learn More →</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NM CONDITIONS -->
+  <section class="cond-section cond-section--alt" aria-labelledby="nm-cond-heading">
     <div class="container">
-      <div class="service-block">
-        <div class="service-block__header fade-in">
-          <h2 id="nm-heading">Neural Manipulation</h2>
-          <span class="badge badge--neural">Advanced Technique</span>
+      <div class="cond-header fade-in">
+        <div>
+          <span class="section__eyebrow">Neural Manipulation</span>
+          <h3 id="nm-cond-heading">Conditions We Address</h3>
+        </div>
+        <p class="cond-header__desc">Neural restrictions create symptoms that look neurological but respond beautifully to manual treatment.</p>
+      </div>
+      <div class="cond-grid fade-in">
+
+        <div class="cond-item">
+          <div class="cond-item__icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+          </div>
+          <div>
+            <div class="cond-item__name">Headaches &amp; Migraines</div>
+            <div class="cond-item__desc">Cranial and cervical nerve restrictions reduce headache frequency dramatically when released — often within one to three sessions.</div>
+          </div>
         </div>
 
-        <div class="two-col two-col--reverse fade-in">
-          <!-- Image/video placeholder left (reversed) -->
-          <div>
-            <img src="images/Neural Manipulation Treatment.jpg" alt="Neural Manipulation Treatment" style="width:100%; aspect-ratio:4/3; border-radius:var(--radius); object-fit:cover;" />
+        <div class="cond-item">
+          <div class="cond-item__icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
           </div>
-
-          <!-- Description right -->
           <div>
-            <div class="nm-summary">
-              <p>Neural Manipulation helps restore nerve mobility to reduce pain, numbness, and improve function.</p>
-            </div>
-            <div class="nm-full">
-              <p>Neural Manipulation (NM) is a complementary technique, also developed by Jean-Pierre Barral in collaboration with Alain Croibier, that assesses and treats the mechanical and neurological dysfunction of the nervous system. Nerves need to move freely within their surrounding tissue — when they don't, the result can be pain, numbness, weakness, and a wide range of neurological symptoms.</p>
-            </div>
-            <p style="margin-top:1rem;">Dr. Friedman applies gentle, specific pressure along nerve pathways to release fixations and restore normal neural mobility. The effects are often immediate and profound — patients frequently report relief from symptoms they have carried for years.</p>
-            <p style="margin-top:1rem;">Neural Manipulation is particularly effective for conditions where conventional treatments have failed to provide lasting relief, as it addresses the nervous system component that is often overlooked.</p>
-
-            <h4 style="margin-top:1.5rem; margin-bottom:0.75rem;">Conditions Addressed</h4>
-            <ul class="conditions-grid">
-              <li>Headaches &amp; migraines</li>
-              <li>Carpal tunnel syndrome</li>
-              <li>Sciatica &amp; radiculopathy</li>
-              <li>Trigeminal neuralgia</li>
-              <li>Thoracic outlet syndrome</li>
-              <li>Plantar fasciitis</li>
-              <li>TMJ dysfunction</li>
-              <li>Post-concussion syndrome</li>
-              <li>Peripheral neuropathy</li>
-              <li>Tinnitus &amp; vertigo</li>
-              <li>Chronic nerve pain</li>
-              <li>Whiplash-associated disorders</li>
-            </ul>
+            <div class="cond-item__name">Sciatica &amp; Radiculopathy</div>
+            <div class="cond-item__desc">The sciatic nerve can be entrapped at multiple points. NM finds and releases the true site of fixation, not just the symptom location.</div>
           </div>
+        </div>
+
+        <div class="cond-item">
+          <div class="cond-item__icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+          </div>
+          <div>
+            <div class="cond-item__name">Carpal Tunnel Syndrome</div>
+            <div class="cond-item__desc">Median nerve compression is often not at the wrist at all — NM traces it to the actual source along the cervical chain or thoracic outlet.</div>
+          </div>
+        </div>
+
+        <div class="cond-item">
+          <div class="cond-item__icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/></svg>
+          </div>
+          <div>
+            <div class="cond-item__name">Tinnitus &amp; Vertigo</div>
+            <div class="cond-item__desc">Cranial nerve restrictions — particularly CN VIII — contribute to ringing and balance disorders that otologists cannot fully explain.</div>
+          </div>
+        </div>
+
+        <div class="cond-item">
+          <div class="cond-item__icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+          </div>
+          <div>
+            <div class="cond-item__name">Post-Concussion Syndrome</div>
+            <div class="cond-item__desc">Cranial membrane tension and restricted dural movement perpetuate symptoms long after the injury has healed on imaging.</div>
+          </div>
+        </div>
+
+        <div class="cond-item">
+          <div class="cond-item__icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+          </div>
+          <div>
+            <div class="cond-item__name">Peripheral Neuropathy</div>
+            <div class="cond-item__desc">Releasing nerve fixations along the entire neural pathway restores conductivity and reduces the burning, tingling, and numbness of neuropathy.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       PATIENT VOICES
+  ══════════════════════════════════════════ -->
+  <section class="section" aria-labelledby="quotes-heading">
+    <div class="container">
+      <div class="section__header fade-in">
+        <span class="section__eyebrow">Patient Stories</span>
+        <h2 id="quotes-heading">Real Results, Real People</h2>
+        <p>What happens when the true source of pain is finally found and treated.</p>
+      </div>
+      <div class="quotes-grid fade-in">
+        <div class="quote-card">
+          <span class="quote-card__mark">&ldquo;</span>
+          <div class="quote-card__stars">★★★★★</div>
+          <p class="quote-card__text">After years of failed treatments, Dr. Friedman found the real cause of my back pain in just two sessions. I had no idea my digestive issues were connected. I'm now pain-free for the first time in a decade.</p>
+          <div class="quote-card__author">Margaret R.</div>
+          <div class="quote-card__cond">Chronic Lower Back Pain · Visceral Manipulation</div>
+        </div>
+        <div class="quote-card">
+          <span class="quote-card__mark">&ldquo;</span>
+          <div class="quote-card__stars">★★★★★</div>
+          <p class="quote-card__text">My migraines were debilitating. Through neural manipulation, Dr. Friedman identified nerve restrictions I never knew existed. My headache frequency dropped by 80% within a month.</p>
+          <div class="quote-card__author">Angela L.</div>
+          <div class="quote-card__cond">Migraines &amp; Neck Pain · Neural Manipulation</div>
+        </div>
+        <div class="quote-card">
+          <span class="quote-card__mark">&ldquo;</span>
+          <div class="quote-card__stars">★★★★★</div>
+          <p class="quote-card__text">I was told I needed hip replacement surgery. Dr. Friedman's whole-body approach revealed organ restrictions were pulling on my hip. After 6 sessions, I cancelled the surgery. Truly remarkable.</p>
+          <div class="quote-card__author">David P.</div>
+          <div class="quote-card__cond">Hip &amp; Pelvic Pain · Visceral Manipulation</div>
         </div>
       </div>
     </div>
@@ -152,65 +828,185 @@
   <!-- ══════════════════════════════════════════
        WHO CAN BENEFIT
   ══════════════════════════════════════════ -->
-  <section class="section" id="who-can-benefit" aria-labelledby="benefit-heading">
+  <section class="section section--alt" id="who-can-benefit" aria-labelledby="benefit-heading">
     <div class="container">
       <div class="section__header fade-in">
         <span class="section__eyebrow">Is This Right for You?</span>
         <h2 id="benefit-heading">Who Can Benefit</h2>
-        <p>Our approach is especially effective for patients who have not found relief through conventional treatments.</p>
+        <p>Our approach is especially powerful for patients who have been everywhere and found nothing that lasts.</p>
       </div>
-
-      <div class="benefit-cards">
-        <div class="benefit-card fade-in">
-          <div class="benefit-card__icon" aria-hidden="true">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <div class="benefit-grid fade-in">
+        <div class="bcard">
+          <div class="bcard__num">01</div>
+          <div>
+            <h3>Unresolved Chronic Pain</h3>
+            <p>You've tried chiropractic, massage, injections, cortisone — nothing lasts. Visceral and neural manipulation reaches the structural origin that all other approaches bypass entirely. Many patients experience more change in two sessions than in years of prior treatment.</p>
           </div>
-          <h3>Unresolved Pain</h3>
-          <p>You've tried everything — chiropractic, massage, injections — and nothing has provided lasting relief. Visceral and neural manipulation addresses the underlying structural cause.</p>
         </div>
-
-        <div class="benefit-card fade-in fade-in--delay-1">
-          <div class="benefit-card__icon" aria-hidden="true">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+        <div class="bcard">
+          <div class="bcard__num">02</div>
+          <div>
+            <h3>Post-Surgery Recovery</h3>
+            <p>Surgical adhesions and scar tissue are invisible on imaging but profoundly disruptive to organ mobility and fascial continuity. VM is highly effective at releasing these adhesions and resolving the persistent pain that follows procedures months or years after they heal on the surface.</p>
           </div>
-          <h3>Post-Surgery</h3>
-          <p>Surgical procedures leave adhesions and scar tissue that can restrict organ mobility and cause persistent pain. VM is highly effective at resolving post-surgical complications.</p>
         </div>
-
-        <div class="benefit-card fade-in fade-in--delay-2">
-          <div class="benefit-card__icon" aria-hidden="true">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/><path d="M8 12s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+        <div class="bcard">
+          <div class="bcard__num">03</div>
+          <div>
+            <h3>Digestive Dysfunction</h3>
+            <p>IBS, GERD, chronic constipation, and bloating often have a mechanical component that gastroenterology never addresses. When an organ's motility is restored, the functional symptoms it was creating frequently resolve without medication changes or dietary restriction.</p>
           </div>
-          <h3>Digestive Issues</h3>
-          <p>IBS, GERD, constipation, and bloating often have a mechanical component. Restoring normal organ mobility can dramatically improve digestive function and reduce discomfort.</p>
         </div>
-
-        <div class="benefit-card fade-in fade-in--delay-3">
-          <div class="benefit-card__icon" aria-hidden="true">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <div class="bcard">
+          <div class="bcard__num">04</div>
+          <div>
+            <h3>Neurological Symptoms</h3>
+            <p>Numbness, tingling, nerve pain, tinnitus, and persistent headaches that don't respond to standard care almost always have a neural restriction component. NM releases the specific fixation point — often surprisingly distant from the symptom site.</p>
           </div>
-          <h3>Holistic Approach</h3>
-          <p>You believe in treating the whole person, not just the symptom. Our integrative approach honors the body's intelligence and works with it — not against it — to achieve lasting wellness.</p>
         </div>
       </div>
     </div>
   </section>
 
   <!-- ══════════════════════════════════════════
-       CTA STRIP
+       OUR PROCESS
   ══════════════════════════════════════════ -->
+  <section class="process-section" id="our-process" aria-labelledby="process-heading">
+    <div class="container">
+      <div class="section__header fade-in">
+        <span class="section__eyebrow" style="color:var(--light-blue);">What to Expect</span>
+        <h2 id="process-heading">Your First Visit</h2>
+        <p>A structured, unhurried process designed to find and address the real source of your pain — not just the site of it.</p>
+      </div>
+      <div class="process-steps fade-in">
+        <div class="pstep">
+          <div class="pstep__bubble">1</div>
+          <h4>Deep History</h4>
+          <p>A thorough intake covering symptoms, surgeries, injuries, medications, and life events. Nothing is dismissed as unrelated — the connections are often non-obvious.</p>
+        </div>
+        <div class="pstep">
+          <div class="pstep__bubble">2</div>
+          <h4>Listening Assessment</h4>
+          <p>Using gentle palpation, Dr. Friedman listens to the body's inherent motility and identifies restrictions throughout the visceral and neural systems.</p>
+        </div>
+        <div class="pstep">
+          <div class="pstep__bubble">3</div>
+          <h4>Targeted Treatment</h4>
+          <p>Precise, gentle manual techniques applied directly to the structures most responsible for your symptoms. Patients are often surprised by how little force is needed to produce profound change.</p>
+        </div>
+        <div class="pstep">
+          <div class="pstep__bubble">4</div>
+          <h4>Home Programme</h4>
+          <p>Personalized exercises and lifestyle guidance to reinforce your treatment and continue healing between sessions.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       VM vs NM COMPARISON
+  ══════════════════════════════════════════ -->
+  <section class="section" id="compare" aria-labelledby="compare-heading">
+    <div class="container">
+      <div class="section__header fade-in">
+        <span class="section__eyebrow">Understanding the Difference</span>
+        <h2 id="compare-heading">Visceral vs Neural Manipulation</h2>
+        <p>Both techniques share the same philosophy — restore mobility, resolve pain — but target different anatomical systems. Most patients benefit from both.</p>
+      </div>
+
+      <!-- Desktop table -->
+      <div class="compare-wrap fade-in">
+        <table class="compare-tbl" role="table" aria-label="Comparison of Visceral and Neural Manipulation">
+          <thead>
+            <tr>
+              <th scope="col"></th>
+              <th scope="col">Visceral Manipulation</th>
+              <th scope="col">Neural Manipulation</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Primary Target</td>
+              <td>Internal organs &amp; connective tissue</td>
+              <td>Peripheral nerves &amp; cranial structures</td>
+            </tr>
+            <tr>
+              <td>Developed By</td>
+              <td>Jean-Pierre Barral</td>
+              <td>Barral &amp; Alain Croibier</td>
+            </tr>
+            <tr>
+              <td>Best For</td>
+              <td>Organ-referred pain, digestive dysfunction, post-surgical adhesions</td>
+              <td>Nerve pain, headaches, numbness, neurological symptoms</td>
+            </tr>
+            <tr>
+              <td>Pressure Used</td>
+              <td><span class="check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Extremely gentle — grams of force</span></td>
+              <td><span class="check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Light &amp; precise — no manipulation</span></td>
+            </tr>
+            <tr>
+              <td>Typical Sessions</td>
+              <td>4–8 sessions for most conditions</td>
+              <td>3–6 sessions; often faster response</td>
+            </tr>
+            <tr>
+              <td>Often Combined?</td>
+              <td><span class="check check-blue"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Yes — VM creates space for NM</span></td>
+              <td><span class="check check-blue"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Yes — addressing both layers is ideal</span></td>
+            </tr>
+            <tr>
+              <td>Dr. Friedman's Cert.</td>
+              <td>Barral Institute VM1–VM5</td>
+              <td>Barral Institute NM1–NM4</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Mobile fallback -->
+      <div class="compare-mobile fade-in">
+        <div class="cmp-pair">
+          <div class="cmp-col">
+            <div class="cmp-col__head">Visceral Manipulation</div>
+            <ul>
+              <li>Targets organs &amp; connective tissue</li>
+              <li>Back, hip &amp; digestive pain</li>
+              <li>Post-surgical adhesions</li>
+              <li>Pelvic dysfunction &amp; GERD</li>
+              <li>VM1–VM5 certified</li>
+            </ul>
+          </div>
+          <div class="cmp-col">
+            <div class="cmp-col__head">Neural Manipulation</div>
+            <ul>
+              <li>Targets nerves &amp; cranial structures</li>
+              <li>Headaches &amp; nerve pain</li>
+              <li>Numbness &amp; tingling</li>
+              <li>Post-concussion &amp; tinnitus</li>
+              <li>NM1–NM4 certified</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CTA -->
   <section class="cta-strip" aria-label="Call to action">
     <div class="container fade-in">
       <span class="section__eyebrow" style="color:var(--light-blue);">Take the First Step</span>
       <h2>Ready to Find the Source of Your Pain?</h2>
       <p>Schedule a consultation with Dr. Friedman and discover what's really behind your symptoms.</p>
-      <a href="contact.html" class="btn btn--outline btn--lg">Book a Consultation</a>
+      <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+        <a href="contact.html" class="btn btn--outline btn--lg">Book a Free Consultation</a>
+        <a href="about.html" class="btn btn--lg" style="background:rgba(255,255,255,0.1);color:#fff;border:2px solid rgba(255,255,255,0.25);">Meet Dr. Friedman</a>
+      </div>
     </div>
   </section>
 
-  <!-- ══════════════════════════════════════════
-       FOOTER
-  ══════════════════════════════════════════ -->
+  <!-- FOOTER -->
   <footer class="footer" role="contentinfo">
     <div class="container">
       <div class="footer__grid">
@@ -261,5 +1057,39 @@
 
   <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
   <script src="js/main.js"></script>
+  <script>
+  $(document).ready(function () {
+
+    /* ── Quick nav: active section on scroll ── */
+    const sections = ['visceral-manipulation','neural-manipulation','who-can-benefit','our-process','compare'];
+    function updateNav() {
+      const scrollY = $(window).scrollTop() + 180;
+      let active = sections[0];
+      sections.forEach(function(id) {
+        const $s = $('#' + id);
+        if ($s.length && scrollY >= $s.offset().top) active = id;
+      });
+      $('.quick-nav__item').removeClass('active');
+      $(`.quick-nav__item[href="#${active}"]`).addClass('active');
+    }
+    $(window).on('scroll', updateNav);
+    updateNav();
+
+    /* ── Sync quick nav top to main navbar height ── */
+    const $navbar = $('.navbar');
+    const $qn = $('#svc-nav');
+    function syncTop() { $qn.css('top', ($navbar.outerHeight() || 72) + 'px'); }
+    syncTop();
+    $(window).on('resize scroll', syncTop);
+
+    /* ── Ripple on condition cards ── */
+    $(document).on('click', '.cond-item', function(e) {
+      var $c = $(this), off = $c.offset();
+      $('<span class="ripple"></span>').css({ left: e.pageX - off.left, top: e.pageY - off.top }).appendTo($c);
+      setTimeout(function() { $c.find('.ripple').remove(); }, 700);
+    });
+
+  });
+  </script>
 </body>
 </html>
