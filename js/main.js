@@ -494,37 +494,7 @@ $(document).ready(function () {
     setTimeout(() => $c.find('.ripple').remove(), 700);
   });
 
-  /* ══════════════════════════════════════════════════════════
-     15. QUICK-NAV (services page)
-  ══════════════════════════════════════════════════════════ */
-  if (currentPage === 'services.html') {
-    const $heroStrip = $('.hero-strip');
-    const $qn = $(`
-      <nav class="quick-nav" aria-label="Jump to section">
-        <a href="#visceral-manipulation" class="quick-nav__item active">Visceral Manipulation</a>
-        <a href="#neural-manipulation" class="quick-nav__item">Neural Manipulation</a>
-        <a href="#who-can-benefit" class="quick-nav__item">Who Benefits</a>
-      </nav>
-    `).insertAfter($heroStrip);
-
-    function updateQuickNavTop() {
-      $qn.css('top', ($navbar.outerHeight() || 72) + 'px');
-    }
-    updateQuickNavTop();
-    $(window).on('scroll.qn resize.qn', updateQuickNavTop);
-
-    const sections = ['visceral-manipulation', 'neural-manipulation', 'who-can-benefit'];
-    $(window).on('scroll.qn', function () {
-      const scrollY = $(this).scrollTop() + 200;
-      sections.forEach(id => {
-        const $s = $(`#${id}`);
-        if ($s.length && scrollY >= $s.offset().top) {
-          $('.quick-nav__item').removeClass('active');
-          $(`.quick-nav__item[href="#${id}"]`).addClass('active');
-        }
-      });
-    });
-  }
+  /* Quick-nav insertion removed — using static markup in services.html to avoid duplicates. */
 
   /* ══════════════════════════════════════════════════════════
      16. BACK TO TOP
